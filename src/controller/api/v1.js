@@ -1,5 +1,16 @@
 const Base = require('../base.js');
 
+//阿里云
+var fs = require("fs");
+var ALY = require('aliyun-sdk');
+var ossStream = require('aliyun-oss-upload-stream')(new ALY.OSS({
+  accessKeyId: 'yIgRvLsyxFB3JEJH',
+  secretAccessKey: 'X7wyFWIw76cLb4cLNDa8Z2YNmHtIOu',
+  endpoint: 'http://oss-cn-beijing.aliyuncs.com',
+  apiVersion: '2013-10-15'
+}));
+
+
 module.exports = class extends Base {
   indexAction() {
     return this.json({code:200});
@@ -51,5 +62,30 @@ module.exports = class extends Base {
           return this.success({ affectedRows: rows });
         }
     }
+  }
+  //上传文件
+  async upfileAction(){
+    var file = this.file("file")
+    var filePath = "baby/" + think.uuid("v4") + ".jpg";
+    var upload = ossStream.upload({
+      Bucket: 'server-19860911',
+      Key: filePath
+    });
+    var read = fs.createReadStream(file.path);
+    read.pipe(upload);
+    var _this = this
+    //传成功
+    var p = await new Promise((resolve,reject)=>{
+        upload.on('uploaded', function (details) {
+           console.log('details:', details);
+           resolve(details)
+         });
+     }).then(function(details){
+           _this.json(details);
+     })
+     //传失败
+     upload.on('error', function (error) {
+       console.log('error:', error);
+     });
   }
 };
