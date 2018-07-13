@@ -16,3 +16,5 @@
 #### api doc
 
 1. postmain path https://www.getpostman.com/collections/e711c501f38019cc8306
+
+2. 配置 postmain 全局URL为 http://e.txk12.com/
