@@ -1,0 +1,28 @@
+{
+    "version": 3,
+    "sources": [
+        "../../../src/controller/api/upfile.js"
+    ],
+    "names": [
+        "fs",
+        "require",
+        "ALY",
+        "ossStream",
+        "OSS",
+        "accessKeyId",
+        "secretAccessKey",
+        "endpoint",
+        "apiVersion",
+        "module",
+        "exports",
+        "Base",
+        "indexAction",
+        "json",
+        "code"
+    ],
+    "mappings": ";;AAEA;AACA,IAAIA,KAAKC,QAAQ,IAAR,CAAT;AACA,IAAIC,MAAMD,QAAQ,YAAR,CAAV;AACA,IAAIE,YAAYF,QAAQ,0BAAR,EAAoC,IAAIC,IAAIE,GAAR,CAAY;AAC9DC,eAAa,kBADiD;AAE9DC,mBAAiB,gCAF6C;AAG9DC,YAAU,oCAHoD;AAI9DC,cAAY;AAJkD,CAAZ,CAApC,CAAhB;;AAOAC,OAAOC,OAAP,GAAiB,cAAcC,IAAd,CAAmB;AAClCC,gBAAc;AACZ,WAAO,KAAKC,IAAL,CAAU,EAACC,MAAK,GAAN,EAAV,CAAP;AACD;AAHiC,CAApC",
+    "file": "../../../src/controller/api/upfile.js",
+    "sourcesContent": [
+        "\n\n//阿里云\nvar fs = require(\"fs\");\nvar ALY = require('aliyun-sdk');\nvar ossStream = require('aliyun-oss-upload-stream')(new ALY.OSS({\n  accessKeyId: 'yIgRvLsyxFB3JEJH',\n  secretAccessKey: 'X7wyFWIw76cLb4cLNDa8Z2YNmHtIOu',\n  endpoint: 'http://oss-cn-beijing.aliyuncs.com',\n  apiVersion: '2013-10-15'\n}));\n\nmodule.exports = class extends Base {\n  indexAction() {\n    return this.json({code:200});\n  }\n}\n"
+    ]
+}
