@@ -10,9 +10,9 @@
         "Controller",
         "__before"
     ],
-    "mappings": "AAAAA,OAAOC,OAAP,GAAiB,cAAcC,MAAMC,UAApB,CAA+B;AAC9CC,aAAW,CAEV;AAH6C,CAAhD",
+    "mappings": "AAAAA,OAAOC,OAAP,GAAiB,cAAcC,MAAMC,UAApB,CAA+B;AAC9CC,aAAW,CAAE;AADiC,CAAhD;AAGA",
     "file": "../../src/controller/base.js",
     "sourcesContent": [
-        "module.exports = class extends think.Controller {\n  __before() {\n\n  }\n};\n"
+        "module.exports = class extends think.Controller {\n  __before() {}\n};\n//# sourceMappingURL=base.js.map"
     ]
 }

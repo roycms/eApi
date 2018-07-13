@@ -1,0 +1,48 @@
+{
+    "version": 3,
+    "sources": [
+        "../../../src/controller/api/v1.js"
+    ],
+    "names": [
+        "Base",
+        "require",
+        "module",
+        "exports",
+        "indexAction",
+        "json",
+        "code",
+        "loginAction",
+        "username",
+        "post",
+        "password",
+        "undefined",
+        "fail",
+        "passwordMd5Val",
+        "think",
+        "md5",
+        "user",
+        "model",
+        "data",
+        "where",
+        "find",
+        "JSON",
+        "stringify",
+        "success",
+        "userAction",
+        "isPut",
+        "isMethod",
+        "isPost",
+        "id",
+        "get",
+        "rows",
+        "update",
+        "affectedRows",
+        "isUser",
+        "add"
+    ],
+    "mappings": ";;AAAA,MAAMA,OAAOC,QAAQ,YAAR,CAAb;;AAEAC,OAAOC,OAAP,GAAiB,cAAcH,IAAd,CAAmB;AAClCI,gBAAc;AACZ,WAAO,KAAKC,IAAL,CAAU,EAACC,MAAK,GAAN,EAAV,CAAP;AACD;AACD;AACMC,aAAN,GAAoB;AAAA;;AAAA;AACjB,YAAMC,WAAW,MAAKC,IAAL,CAAU,UAAV,CAAjB;AACA,YAAMC,WAAW,MAAKD,IAAL,CAAU,UAAV,CAAjB;AACA,UAAID,YAAYG,SAAZ,IAAyBD,YAAYC,SAAzC,EAAoD;AAClD,eAAO,MAAKC,IAAL,CAAU,GAAV,EAAe,MAAf,CAAP;AACD;AACD,YAAMC,iBAAiBC,MAAMC,GAAN,CAAUL,QAAV,CAAvB;AACA,YAAMM,OAAO,MAAKC,KAAL,CAAW,MAAX,CAAb;AACA,YAAMC,OAAO,MAAMF,KAAKG,KAAL,CAAW;AAC5BX,kBAAUA,QADkB;AAE5BE,kBAAUG;AAFkB,OAAX,EAGhBO,IAHgB,EAAnB;AAIA;AACA,UAAIC,KAAKC,SAAL,CAAeJ,IAAf,KAAwB,IAA5B,EAAiC;AAC9B,eAAO,MAAKN,IAAL,CAAU,GAAV,EAAe,YAAf,CAAP;AACF,OAFD,MAGK;AACF,eAAO,MAAKW,OAAL,CAAa,GAAb,EAAkB,OAAlB,CAAP;AACF;AAlBgB;AAmBnB;AACD;AACMC,YAAN,GAAkB;AAAA;;AAAA;AAChB,YAAMC,QAAQ,OAAKC,QAAL,CAAc,KAAd,CAAd;AACA,YAAMC,SAAS,OAAKD,QAAL,CAAc,MAAd,CAAf;;AAEA,YAAMT,QAAQ,OAAKA,KAAL,CAAW,MAAX,CAAd;AACA,YAAMW,KAAK,OAAKC,GAAL,CAAS,IAAT,CAAX;;AAEA,UAAIJ,KAAJ,EAAW;AACT,cAAMP,OAAO,OAAKT,IAAL,EAAb;AACAS,aAAKR,QAAL,GAAiBI,MAAMC,GAAN,CAAUG,KAAKR,QAAf,CAAjB;AACA,cAAMoB,OAAO,MAAMb,MAAME,KAAN,CAAY,EAAES,IAAIA,EAAN,EAAZ,EAAwBG,MAAxB,CAA+Bb,IAA/B,CAAnB;AACA,eAAO,OAAKK,OAAL,CAAa,EAAES,cAAcF,IAAhB,EAAb,CAAP;AACD;AACD,UAAIH,MAAJ,EAAY;AACV,cAAMT,OAAO,OAAKT,IAAL,EAAb;AACAS,aAAKR,QAAL,GAAiBI,MAAMC,GAAN,CAAUG,KAAKR,QAAf,CAAjB;AACA;AACA,cAAMuB,SAAS,MAAMhB,MAAME,KAAN,CAAY,EAACX,UAAUU,KAAKV,QAAhB,EAAZ,EAAuCY,IAAvC,EAArB;AACE,YAAIC,KAAKC,SAAL,CAAeW,MAAf,KAA0B,IAA9B,EAAmC;AACjC,iBAAO,OAAKrB,IAAL,CAAU,IAAV,EAAgB,cAAhB,CAAP;AACD,SAFD,MAEM;AACJ,gBAAMkB,OAAO,MAAMb,MAAMiB,GAAN,CAAUhB,IAAV,CAAnB;AACA,iBAAO,OAAKK,OAAL,CAAa,EAAES,cAAcF,IAAhB,EAAb,CAAP;AACD;AACJ;AAxBe;AAyBjB;AAnDiC,CAApC",
+    "file": "../../../src/controller/api/v1.js",
+    "sourcesContent": [
+        "const Base = require('../base.js');\n\nmodule.exports = class extends Base {\n  indexAction() {\n    return this.json({code:200});\n  }\n  //登录\n  async loginAction() {\n     const username = this.post('username');\n     const password = this.post('password');\n     if (username == undefined || password == undefined) {\n       return this.fail(300, \"参数错误\");\n     }\n     const passwordMd5Val = think.md5(password);\n     const user = this.model('user');\n     const data = await user.where({\n       username: username,\n       password: passwordMd5Val\n     }).find();\n     // this.json(data)\n     if (JSON.stringify(data) == \"{}\"){\n        return this.fail(300, \"账户名或者密码错误！\");\n     }\n     else {\n        return this.success(200, \"登录成功！\");\n     }\n  }\n  //用户注册和更改用户资料\n  async userAction(){\n    const isPut = this.isMethod('PUT');\n    const isPost = this.isMethod('POST');\n\n    const model = this.model('user');\n    const id = this.get(\"id\");\n\n    if (isPut) {\n      const data = this.post();\n      data.password =  think.md5(data.password);\n      const rows = await model.where({ id: id }).update(data);\n      return this.success({ affectedRows: rows });\n    }\n    if (isPost) {\n      const data = this.post();\n      data.password =  think.md5(data.password);\n      // this.json(data)\n      const isUser = await model.where({username: data.username}).find();\n        if (JSON.stringify(isUser) != \"{}\"){\n          return this.fail(1001, \"注册失败！该用户已经存在\");\n        }else {\n          const rows = await model.add(data);\n          return this.success({ affectedRows: rows });\n        }\n    }\n  }\n};\n"
+    ]
+}

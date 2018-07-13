@@ -1,0 +1,20 @@
+{
+    "version": 3,
+    "sources": [
+        "../../../src/controller/admin/index.js"
+    ],
+    "names": [
+        "Base",
+        "require",
+        "module",
+        "exports",
+        "indexAction",
+        "json",
+        "code"
+    ],
+    "mappings": "AAAA,MAAMA,OAAOC,QAAQ,YAAR,CAAb;;AAEAC,OAAOC,OAAP,GAAiB,cAAcH,IAAd,CAAmB;AAClCI,gBAAc;AACZ,WAAO,KAAKC,IAAL,CAAU,EAACC,MAAK,GAAN,EAAV,CAAP;AACD;AAHiC,CAApC;AAKA",
+    "file": "../../../src/controller/admin/index.js",
+    "sourcesContent": [
+        "const Base = require('../base.js');\n\nmodule.exports = class extends Base {\n  indexAction() {\n    return this.json({code:200});\n  }\n};\n//# sourceMappingURL=index.js.map\n"
+    ]
+}

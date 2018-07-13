@@ -1,0 +1,23 @@
+{
+    "version": 3,
+    "sources": [
+        "../../../src/controller/api/index.js"
+    ],
+    "names": [
+        "Base",
+        "require",
+        "module",
+        "exports",
+        "indexAction",
+        "json",
+        "code",
+        "version",
+        "date",
+        "author"
+    ],
+    "mappings": "AAAA,MAAMA,OAAOC,QAAQ,YAAR,CAAb;;AAEAC,OAAOC,OAAP,GAAiB,cAAcH,IAAd,CAAmB;AAClCI,gBAAc;AACZ,WAAO,KAAKC,IAAL,CAAU;AACfC,YAAK,GADU;AAEfC,eAAQ,OAFO;AAGfC,YAAK,YAHU;AAIfC,cAAO;AAJQ,KAAV,CAAP;AAMD;AARiC,CAApC;AAUA",
+    "file": "../../../src/controller/api/index.js",
+    "sourcesContent": [
+        "const Base = require('../base.js');\n\nmodule.exports = class extends Base {\n  indexAction() {\n    return this.json({\n      code:200,\n      version:\"1.0.0\",\n      date:\"2018.07.13\",\n      author:\"roy\"\n    });\n  }\n};\n//# sourceMappingURL=index.js.map\n"
+    ]
+}

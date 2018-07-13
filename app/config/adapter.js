@@ -1,5 +1,6 @@
 const fileCache = require('think-cache-file');
-const nunjucks = require('think-view-nunjucks');
+// const nunjucks = require('think-view-nunjucks');
+const ejs = require('think-view-ejs');
 const fileSession = require('think-session-file');
 const mysql = require('think-model-mysql');
 const { Console, File, DateFile } = require('think-logger3');
@@ -36,13 +37,13 @@ exports.model = {
   },
   mysql: {
     handle: mysql,
-    database: '',
-    prefix: 'think_',
+    database: 'evaluation',
+    prefix: 'e_',
     encoding: 'utf8',
-    host: '127.0.0.1',
-    port: '',
+    host: '182.92.178.102',
+    port: '3306',
     user: 'root',
-    password: 'root',
+    password: 'xiaohui123',
     dateStrings: true
   }
 };
@@ -71,22 +72,25 @@ exports.session = {
  * @type {Object}
  */
 exports.view = {
-  type: 'nunjucks',
+  type: 'ejs',
   common: {
     viewPath: path.join(think.ROOT_PATH, 'view'),
-    sep: '_',
-    extname: '.html'
+    extname: '.html',
+    sep: '_' //seperator between controller and action
   },
-  nunjucks: {
-    handle: nunjucks
+  ejs: {
+    //options
+    handle: ejs,
+    beforeRender: (ejs, handleOptions) => {
+      //do something before render the template.
+    }
   }
-};
 
-/**
- * logger adapter config
- * @type {Object}
- */
-exports.logger = {
+  /**
+   * logger adapter config
+   * @type {Object}
+   */
+};exports.logger = {
   type: isDev ? 'console' : 'dateFile',
   console: {
     handle: Console

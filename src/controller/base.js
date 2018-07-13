@@ -1,5 +1,4 @@
 module.exports = class extends think.Controller {
-  __before() {
-
-  }
+  __before() {}
 };
+//# sourceMappingURL=base.js.map
