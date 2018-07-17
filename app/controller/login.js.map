@@ -1,0 +1,24 @@
+{
+    "version": 3,
+    "sources": [
+        "../../src/controller/login.js"
+    ],
+    "names": [
+        "Base",
+        "require",
+        "module",
+        "exports",
+        "indexAction",
+        "sessionKey",
+        "session",
+        "think",
+        "isEmpty",
+        "redirect",
+        "display"
+    ],
+    "mappings": ";;AAAA,MAAMA,OAAOC,QAAQ,WAAR,CAAb;;AAEAC,OAAOC,OAAP,GAAiB,cAAcH,IAAd,CAAmB;AAC5BI,aAAN,GAAoB;AAAA;;AAAA;AAClB,YAAMC,aAAa,MAAM,MAAKC,OAAL,CAAa,YAAb,CAAzB;AACA,UAAI,CAACC,MAAMC,OAAN,CAAcH,UAAd,CAAL,EAA+B;AAC7B,cAAKI,QAAL,CAAc,QAAd;AACD,OAFD,MAEM;AACJ,eAAO,MAAKC,OAAL,EAAP;AACD;AANiB;AAOnB;AARiC,CAApC",
+    "file": "../../src/controller/login.js",
+    "sourcesContent": [
+        "const Base = require('./base.js');\n\nmodule.exports = class extends Base {\n  async indexAction() {\n    const sessionKey = await this.session('sessionKey');\n    if (!think.isEmpty(sessionKey)){\n      this.redirect(\"/admin\")\n    }else {\n      return this.display();\n    }\n  }\n}\n"
+    ]
+}
