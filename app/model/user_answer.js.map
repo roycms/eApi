@@ -1,0 +1,24 @@
+{
+    "version": 3,
+    "sources": [
+        "../../src/model/user_answer.js"
+    ],
+    "names": [
+        "module",
+        "exports",
+        "think",
+        "Model",
+        "relation",
+        "question",
+        "type",
+        "HAS_ONE",
+        "key",
+        "fKey",
+        "options"
+    ],
+    "mappings": "AAAAA,OAAOC,OAAP,GAAiB,cAAcC,MAAMC,KAApB,CAA0B;AACzC,MAAIC,QAAJ,GAAe;AACb,WAAO;AACLC,gBAAU;AACRC,cAAMJ,MAAMC,KAAN,CAAYI,OADV;AAERC,aAAI,aAFI;AAGRC,cAAK;AAHG,OADL;AAMLC,eAAS;AACPJ,cAAMJ,MAAMC,KAAN,CAAYI,OADX;AAEPC,aAAI,YAFG;AAGPC,cAAK;AAHE;AANJ,KAAP;AAYD;AAdwC,CAA3C",
+    "file": "../../src/model/user_answer.js",
+    "sourcesContent": [
+        "module.exports = class extends think.Model {\n  get relation() {\n    return {\n      question: {\n        type: think.Model.HAS_ONE,\n        key:\"question_id\",\n        fKey:\"id\"\n      },\n      options: {\n        type: think.Model.HAS_ONE,\n        key:\"options_id\",\n        fKey:\"id\"\n      }\n    }\n  }\n};\n"
+    ]
+}

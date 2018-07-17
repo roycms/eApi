@@ -198,4 +198,43 @@ module.exports = class extends Base {
       return this.json(data);
     }
   }
+
+  //e_task_flows
+  async task_flowsAction(){
+    //创建一个测试
+    const isPost = this.isMethod('POST');
+    const isGet = this.isMethod('GET');
+    const model = this.model('task_flows');
+    if (isPost) {
+      const data = this.post();
+      const rows = await model.add(data);
+      return this.success({ affectedRows: rows });
+    }
+    //查询某个用户的所有测试 参数 user_id
+    if (isGet) {
+      const data = await model.where({user_id: this.get("user_id")}).select()
+      return this.json(data);
+    }
+  }
+
+  //e_user_answer 回答一个问题
+  async user_answerAction(){
+    const isPost = this.isMethod('POST');
+    const model = this.model('user_answer');
+    if (isPost) {
+      const data = this.post();
+      const rows = await model.add(data);
+      return this.success({ affectedRows: rows });
+    }
+  }
+  //e_user_answers 批量回答多个问题
+  async user_answersAction(){
+    const isPost = this.isMethod('POST');
+    const model = this.model('user_answer');
+    if (isPost) {
+      const data = this.post();
+      const rows = await model.addMany([data]);
+      return this.success({ affectedRows: rows });
+    }
+  }
 };

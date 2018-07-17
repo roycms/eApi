@@ -226,5 +226,56 @@ module.exports = class extends Base {
       }
     })();
   }
+
+  //e_task_flows
+  task_flowsAction() {
+    var _this9 = this;
+
+    return _asyncToGenerator(function* () {
+      //创建一个测试
+      const isPost = _this9.isMethod('POST');
+      const isGet = _this9.isMethod('GET');
+      const model = _this9.model('task_flows');
+      if (isPost) {
+        const data = _this9.post();
+        const rows = yield model.add(data);
+        return _this9.success({ affectedRows: rows });
+      }
+      //查询某个用户的所有测试 参数 user_id
+      if (isGet) {
+        const data = yield model.where({ user_id: _this9.get("user_id") }).select();
+        return _this9.json(data);
+      }
+    })();
+  }
+
+  //e_user_answer 回答一个问题
+  user_answerAction() {
+    var _this10 = this;
+
+    return _asyncToGenerator(function* () {
+      const isPost = _this10.isMethod('POST');
+      const model = _this10.model('user_answer');
+      if (isPost) {
+        const data = _this10.post();
+        const rows = yield model.add(data);
+        return _this10.success({ affectedRows: rows });
+      }
+    })();
+  }
+  //e_user_answers 批量回答多个问题
+  user_answersAction() {
+    var _this11 = this;
+
+    return _asyncToGenerator(function* () {
+      const isPost = _this11.isMethod('POST');
+      const model = _this11.model('user_answer');
+      if (isPost) {
+        const data = _this11.post();
+        const rows = yield model.addMany([data]);
+        return _this11.success({ affectedRows: rows });
+      }
+    })();
+  }
 };
 //# sourceMappingURL=v1.js.map
