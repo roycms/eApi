@@ -88,4 +88,114 @@ module.exports = class extends Base {
        console.log('error:', error);
      });
   }
+
+  //Evaluation 评测主体
+  async evaluationAction(){
+    const isGet = this.isMethod('GET');
+    const isPut = this.isMethod('PUT');
+    const isPost = this.isMethod('POST');
+    const isDelete = this.isMethod('DELETE');
+    const model = this.model('evaluation');
+    const id = this.get("id");
+    if (isPut) {
+      const data = this.post();
+      const rows = await model.where({ id: id }).update(data);
+      return this.success({ affectedRows: rows });
+    }
+    if (isPost) {
+      const data = this.post();
+      const rows = await model.add(data);
+      return this.success({ affectedRows: rows });
+    }
+    if (isDelete) {
+      const rows = await model.where({ id: id }).delete()
+      return this.success({ affectedRows: rows });
+    }
+    if (isGet) {
+      const data = await model.select()
+      return this.json(data);
+    }
+  }
+
+  //question
+  async questionAction(){
+    const isGet = this.isMethod('GET');
+    const isPut = this.isMethod('PUT');
+    const isPost = this.isMethod('POST');
+    const isDelete = this.isMethod('DELETE');
+    const model = this.model('question');
+    const id = this.get("id");
+    if (isPut) {
+      const data = this.post();
+      const rows = await model.where({ id: id }).update(data);
+      return this.success({ affectedRows: rows });
+    }
+    if (isPost) {
+      const data = this.post();
+      const rows = await model.add(data);
+      return this.success({ affectedRows: rows });
+    }
+    if (isDelete) {
+      const rows = await model.where({ id: id }).delete()
+      return this.success({ affectedRows: rows });
+    }
+    if (isGet) {
+      const data = await model.select()
+      return this.json(data);
+    }
+  }
+  //options
+  async optionsAction(){
+    const isGet = this.isMethod('GET');
+    const isPut = this.isMethod('PUT');
+    const isPost = this.isMethod('POST');
+    const isDelete = this.isMethod('DELETE');
+    const model = this.model('options');
+    const id = this.get("id");
+    if (isPut) {
+      const data = this.post();
+      const rows = await model.where({ id: id }).update(data);
+      return this.success({ affectedRows: rows });
+    }
+    if (isPost) {
+      const data = this.post();
+      const rows = await model.add(data);
+      return this.success({ affectedRows: rows });
+    }
+    if (isDelete) {
+      const rows = await model.where({ id: id }).delete()
+      return this.success({ affectedRows: rows });
+    }
+    if (isGet) {
+      const data = await model.select()
+      return this.json(data);
+    }
+  }
+  //Answer
+  async answerAction(){
+    const isGet = this.isMethod('GET');
+    const isPut = this.isMethod('PUT');
+    const isPost = this.isMethod('POST');
+    const isDelete = this.isMethod('DELETE');
+    const model = this.model('answer');
+    const id = this.get("id");
+    if (isPut) {
+      const data = this.post();
+      const rows = await model.where({ id: id }).update(data);
+      return this.success({ affectedRows: rows });
+    }
+    if (isPost) {
+      const data = this.post();
+      const rows = await model.add(data);
+      return this.success({ affectedRows: rows });
+    }
+    if (isDelete) {
+      const rows = await model.where({ id: id }).delete()
+      return this.success({ affectedRows: rows });
+    }
+    if (isGet) {
+      const data = await model.select()
+      return this.json(data);
+    }
+  }
 };

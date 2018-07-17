@@ -100,5 +100,131 @@ module.exports = class extends Base {
       });
     })();
   }
+
+  //Evaluation 评测主体
+  evaluationAction() {
+    var _this5 = this;
+
+    return _asyncToGenerator(function* () {
+      const isGet = _this5.isMethod('GET');
+      const isPut = _this5.isMethod('PUT');
+      const isPost = _this5.isMethod('POST');
+      const isDelete = _this5.isMethod('DELETE');
+      const model = _this5.model('evaluation');
+      const id = _this5.get("id");
+      if (isPut) {
+        const data = _this5.post();
+        const rows = yield model.where({ id: id }).update(data);
+        return _this5.success({ affectedRows: rows });
+      }
+      if (isPost) {
+        const data = _this5.post();
+        const rows = yield model.add(data);
+        return _this5.success({ affectedRows: rows });
+      }
+      if (isDelete) {
+        const rows = yield model.where({ id: id }).delete();
+        return _this5.success({ affectedRows: rows });
+      }
+      if (isGet) {
+        const data = yield model.select();
+        return _this5.json(data);
+      }
+    })();
+  }
+
+  //question
+  questionAction() {
+    var _this6 = this;
+
+    return _asyncToGenerator(function* () {
+      const isGet = _this6.isMethod('GET');
+      const isPut = _this6.isMethod('PUT');
+      const isPost = _this6.isMethod('POST');
+      const isDelete = _this6.isMethod('DELETE');
+      const model = _this6.model('question');
+      const id = _this6.get("id");
+      if (isPut) {
+        const data = _this6.post();
+        const rows = yield model.where({ id: id }).update(data);
+        return _this6.success({ affectedRows: rows });
+      }
+      if (isPost) {
+        const data = _this6.post();
+        const rows = yield model.add(data);
+        return _this6.success({ affectedRows: rows });
+      }
+      if (isDelete) {
+        const rows = yield model.where({ id: id }).delete();
+        return _this6.success({ affectedRows: rows });
+      }
+      if (isGet) {
+        const data = yield model.select();
+        return _this6.json(data);
+      }
+    })();
+  }
+  //options
+  optionsAction() {
+    var _this7 = this;
+
+    return _asyncToGenerator(function* () {
+      const isGet = _this7.isMethod('GET');
+      const isPut = _this7.isMethod('PUT');
+      const isPost = _this7.isMethod('POST');
+      const isDelete = _this7.isMethod('DELETE');
+      const model = _this7.model('options');
+      const id = _this7.get("id");
+      if (isPut) {
+        const data = _this7.post();
+        const rows = yield model.where({ id: id }).update(data);
+        return _this7.success({ affectedRows: rows });
+      }
+      if (isPost) {
+        const data = _this7.post();
+        const rows = yield model.add(data);
+        return _this7.success({ affectedRows: rows });
+      }
+      if (isDelete) {
+        const rows = yield model.where({ id: id }).delete();
+        return _this7.success({ affectedRows: rows });
+      }
+      if (isGet) {
+        const data = yield model.select();
+        return _this7.json(data);
+      }
+    })();
+  }
+  //Answer
+  answerAction() {
+    var _this8 = this;
+
+    return _asyncToGenerator(function* () {
+      const isGet = _this8.isMethod('GET');
+      const isPut = _this8.isMethod('PUT');
+      const isPost = _this8.isMethod('POST');
+      const isDelete = _this8.isMethod('DELETE');
+      const model = _this8.model('answer');
+      const id = _this8.get("id");
+      if (isPut) {
+        const data = _this8.post();
+        const rows = yield model.where({ id: id }).update(data);
+        return _this8.success({ affectedRows: rows });
+      }
+      if (isPost) {
+        const data = _this8.post();
+        const rows = yield model.add(data);
+        return _this8.success({ affectedRows: rows });
+      }
+      if (isDelete) {
+        const rows = yield model.where({ id: id }).delete();
+        return _this8.success({ affectedRows: rows });
+      }
+      if (isGet) {
+        const data = yield model.select();
+        return _this8.json(data);
+      }
+    })();
+  }
 };
 //# sourceMappingURL=v1.js.map
