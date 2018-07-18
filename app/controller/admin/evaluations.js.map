@@ -1,0 +1,24 @@
+{
+    "version": 3,
+    "sources": [
+        "../../../src/controller/admin/evaluations.js"
+    ],
+    "names": [
+        "Base",
+        "require",
+        "module",
+        "exports",
+        "indexAction",
+        "evaluation",
+        "model",
+        "evaluations",
+        "select",
+        "assign",
+        "display"
+    ],
+    "mappings": ";;AAAA,MAAMA,OAAOC,QAAQ,YAAR,CAAb;;AAEAC,OAAOC,OAAP,GAAiB,cAAcH,IAAd,CAAmB;AAC5BI,aAAN,GAAoB;AAAA;;AAAA;AAClB,UAAIC,aAAa,MAAKC,KAAL,CAAW,YAAX,CAAjB;AACA,YAAMC,cAAc,MAAMF,WAAWG,MAAX,EAA1B;AACA,YAAKC,MAAL,CAAY,EAAEF,aAAaA,WAAf,EAAZ;AACA,aAAO,MAAM,MAAKG,OAAL,EAAb;AAJkB;AAKnB;AANiC,CAApC",
+    "file": "../../../src/controller/admin/evaluations.js",
+    "sourcesContent": [
+        "const Base = require('../base.js');\n\nmodule.exports = class extends Base {\n  async indexAction() {\n    let evaluation = this.model('evaluation');\n    const evaluations = await evaluation.select();\n    this.assign({ evaluations: evaluations});\n    return await this.display();\n  }\n};\n"
+    ]
+}

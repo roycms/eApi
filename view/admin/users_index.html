@@ -19,7 +19,8 @@
 		<input type="text" class="input-text" style="width:250px" placeholder="输入会员名称、电话、邮箱" id="" name="">
 		<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
 	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="member_add('添加用户','member-add.html','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加用户</a></span> <span class="r">共有数据：<strong>88</strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="member_add('添加用户','member-add.html','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加用户</a></span>
+    <span class="r">共有数据：<strong><%= users.length %></strong> 条</span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
@@ -49,7 +50,7 @@
 
           <a title="编辑" href="javascript:;" onclick="member_edit('编辑','member-add.html','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
 
-          <a title="删除" href="javascript:;" onclick="member_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+          <a title="删除" href="javascript:;" onclick="del(this,'<%= vo.id %>')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
 
 			</tr>
       <% }); %>
@@ -131,12 +132,12 @@ function member_edit(title,url,id,w,h){
 function change_password(title,url,id,w,h){
 	layer_show(title,url,w,h);
 }
-/*用户-删除*/
-function member_del(obj,id){
+/*删除*/
+function del(obj,id){
 	layer.confirm('确认要删除吗？',function(index){
 		$.ajax({
-			type: 'POST',
-			url: '',
+			type: 'DELETE',
+			url: '/api/v1/user?id=' + id,
 			dataType: 'json',
 			success: function(data){
 				$(obj).parents("tr").remove();

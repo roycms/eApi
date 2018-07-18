@@ -50,7 +50,7 @@ module.exports = class extends Base {
     return _asyncToGenerator(function* () {
       const isPut = _this3.isMethod('PUT');
       const isPost = _this3.isMethod('POST');
-
+      const isDelete = _this3.isMethod('DELETE');
       const model = _this3.model('user');
       const id = _this3.get("id");
 
@@ -71,6 +71,10 @@ module.exports = class extends Base {
           const rows = yield model.add(data);
           return _this3.success({ affectedRows: rows });
         }
+      }
+      if (isDelete) {
+        const rows = yield model.where({ id: id }).delete();
+        return _this3.success({ affectedRows: rows });
       }
     })();
   }

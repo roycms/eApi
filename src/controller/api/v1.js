@@ -43,7 +43,7 @@ module.exports = class extends Base {
   async userAction(){
     const isPut = this.isMethod('PUT');
     const isPost = this.isMethod('POST');
-
+    const isDelete = this.isMethod('DELETE');
     const model = this.model('user');
     const id = this.get("id");
 
@@ -64,6 +64,10 @@ module.exports = class extends Base {
           const rows = await model.add(data);
           return this.success({ affectedRows: rows });
         }
+    }
+    if (isDelete) {
+      const rows = await model.where({ id: id }).delete()
+      return this.success({ affectedRows: rows });
     }
   }
   //上传文件
