@@ -9,11 +9,18 @@
         "module",
         "exports",
         "indexAction",
-        "display"
+        "sessionKey",
+        "session",
+        "think",
+        "isEmpty",
+        "redirect",
+        "assign",
+        "display",
+        "loginOutAction"
     ],
-    "mappings": "AAAA,MAAMA,OAAOC,QAAQ,YAAR,CAAb;;AAEAC,OAAOC,OAAP,GAAiB,cAAcH,IAAd,CAAmB;AAClCI,gBAAc;AACZ,WAAO,KAAKC,OAAL,EAAP;AACD;AAHiC,CAApC;AAKA",
+    "mappings": ";;AAAA,MAAMA,OAAOC,QAAQ,YAAR,CAAb;;AAEAC,OAAOC,OAAP,GAAiB,cAAcH,IAAd,CAAmB;AAC5BI,aAAN,GAAoB;AAAA;;AAAA;;AAElB,YAAMC,aAAa,MAAM,MAAKC,OAAL,CAAa,YAAb,CAAzB;AACA,UAAIC,MAAMC,OAAN,CAAcH,UAAd,CAAJ,EAA8B;AAC5B,cAAKI,QAAL,CAAc,QAAd;AACD,OAFD,MAEM;AACJ,cAAKC,MAAL,CAAY,EAAEL,YAAYA,UAAd,EAAZ;AACA,eAAO,MAAKM,OAAL,EAAP;AACD;AARiB;AASnB;AACKC,gBAAN,GAAsB;AAAA;;AAAA;AACpB;AACA,YAAM,OAAKN,OAAL,CAAa,IAAb,CAAN;AACA,aAAKG,QAAL,CAAc,QAAd;AAHoB;AAIrB;AAfiC,CAApC;AAiBA",
     "file": "../../../src/controller/admin/index.js",
     "sourcesContent": [
-        "const Base = require('../base.js');\n\nmodule.exports = class extends Base {\n  indexAction() {\n    return this.display();\n  }\n};\n//# sourceMappingURL=index.js.map\n"
+        "const Base = require('../base.js');\n\nmodule.exports = class extends Base {\n  async indexAction() {\n\n    const sessionKey = await this.session('sessionKey');\n    if (think.isEmpty(sessionKey)){\n      this.redirect(\"/login\")\n    }else {\n      this.assign({ sessionKey: sessionKey});\n      return this.display();\n    }\n  }\n  async loginOutAction(){\n    // 删除整个 session\n    await this.session(null);\n    this.redirect(\"/login\")\n  }\n};\n//# sourceMappingURL=index.js.map\n"
     ]
 }

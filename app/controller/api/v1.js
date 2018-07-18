@@ -34,8 +34,11 @@ module.exports = class extends Base {
       }).find();
       // this.json(data)
       if (JSON.stringify(data) == "{}") {
+        yield _this2.session('sessionKey', null);
         return _this2.fail(300, "账户名或者密码错误！");
       } else {
+        //设置session
+        yield _this2.session('sessionKey', username);
         return _this2.success(200, "登录成功！");
       }
     })();

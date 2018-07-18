@@ -30,9 +30,12 @@ module.exports = class extends Base {
      }).find();
      // this.json(data)
      if (JSON.stringify(data) == "{}"){
+        await this.session('sessionKey', null);
         return this.fail(300, "账户名或者密码错误！");
      }
      else {
+       //设置session
+        await this.session('sessionKey', username);
         return this.success(200, "登录成功！");
      }
   }
