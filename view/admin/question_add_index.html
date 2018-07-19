@@ -1,0 +1,176 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<% include _header.html %>
+<title></title>
+
+</head>
+<body>
+<article class="page-container">
+
+	<form class="form form-horizontal" id="form" enctype='multipart/form-data' >
+
+    <!-- 编辑模式 -->
+    <% if (question) { %>
+      <input type="hidden" id="id" name="id" value="<%= question.id %>" >
+    <% } %>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>
+        题目:
+      </label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="<% if (question) { %><%= question.title %><% } %>" placeholder="" id="title" name="title">
+			</div>
+		</div>
+    <div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">题型切换:</label>
+			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
+				<div class="check-box">
+					<input type="checkbox" id="type" name="type" value="0">
+					<label for="checkbox-pinglun">是否是多选题</label>
+				</div>
+			</div>
+		</div>
+    <div class="row cl">
+      <label class="form-label col-xs-4 col-sm-2"></label>
+      <div class="formControls col-xs-8 col-sm-9">
+
+        <% if (options) { %>
+          <% options.forEach(function(vo){ %>
+            <div>
+              <input type="hidden" name="options_id" value="<%= vo.id %>" >
+              <input name="contents" type="text" class="input-text" placeholder="选项" value="<%= vo.content %>">
+              <input name="scores" type="text" class="input-text" style="width:80px" placeholder="分值" value="<%= vo.scores %>">
+            </div>
+          <% }); %>
+        <% } else {%>
+          <div>
+            <input name="contents" type="text" class="input-text" placeholder="选项一" value="">
+            <input name="scores" type="text" class="input-text" style="width:80px" placeholder="分值" value="">
+          </div>
+          <div>
+            <input name="contents" type="text" class="input-text" placeholder="选项二" value="">
+            <input name="scores" type="text" class="input-text" style="width:80px" placeholder="分值" value="">
+          </div>
+          <div>
+            <input name="contents" type="text" class="input-text" placeholder="选项三" value="">
+            <input name="scores" type="text" class="input-text" style="width:80px" placeholder="分值" value="">
+          </div>
+        <% } %>
+      </div>
+    </div>
+
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+        <button class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
+				<button class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存</button>
+        <button class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存并添加下一题</button>
+			</div>
+		</div>
+	</form>
+
+</article>
+
+<% include _footer.html %>
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="/static/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="/static/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="/static/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="/static/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="/static/lib/webuploader/0.1.5/webuploader.min.js"></script>
+<script type="text/javascript" src="/static/lib/ueditor/1.4.3/ueditor.config.js"></script>
+<script type="text/javascript" src="/static/lib/ueditor/1.4.3/ueditor.all.min.js"> </script>
+<script type="text/javascript" src="/static/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript">
+
+$(function(){
+  $('.skin-minimal input').iCheck({
+  	checkboxClass: 'icheckbox-blue',
+  	radioClass: 'iradio-blue',
+  	increaseArea: '20%'
+  });
+
+	//表单验证
+	$("#form").validate({
+		rules:{
+			title:{
+				required:true,
+			}
+		},
+		onkeyup:false,
+		focusCleanup:true,
+		success:"valid",
+		submitHandler:function(form){
+
+      var ajaxType = "post"
+      var url = "/admin/question_add/add"
+      if ($("#id").val() > 0) {
+        ajaxType = "put"
+        url =  url + "?id="+$("#id").val()
+      }
+
+      var title = $("#title").val();
+      var type = $("#type").val();
+      var contents = [];
+      $("input[name='contents']").each(function(i, o){
+        contents[i] = $(o).val();
+      });
+      var scores = [];
+      $("input[name='scores']").each(function(i, o){
+        scores[i] = $(o).val();
+      });
+
+      var data = {
+        title:title,
+        type:type,
+        c:JSON.stringify(contents),
+        s:JSON.stringify(scores),
+        max_scores:Math.max.apply(null, scores)
+      }
+      //编辑模式
+      if ($("#id").val() > 0) {
+        var options_ids = [];
+        $("input[name='options_id']").each(function(i, o){
+          options_ids[i] = $(o).val();
+        });
+        data.oIds = JSON.stringify(options_ids);
+      }
+			$(form).ajaxSubmit({
+				type: ajaxType,
+				url: url,
+				dataType: "json",
+        data:data,
+				success: function (data) {
+          // alert(JSON.stringify(data));
+          if (data.errno == 0){
+            // alert("添加成功")
+            layer.msg('添加成功!',{icon:1,time:1000});
+            var index = parent.layer.getFrameIndex(window.name);
+            // parent.$('.btn-refresh').click();
+            parent.location.replace(parent.location.href)
+            parent.layer.close(index);
+          }
+          else {
+            // alert(data.errmsg)
+            layer.msg(data.errmsg,{icon:1,time:1000});
+          }
+				},
+				error: function () {
+					layer.msg('提交失败!',{icon:1,time:1000});
+				}
+			});
+
+		}
+	});
+});
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

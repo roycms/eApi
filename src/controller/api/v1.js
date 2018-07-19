@@ -116,6 +116,8 @@ module.exports = class extends Base {
     }
     if (isDelete) {
       const rows = await model.where({ id: id }).delete()
+      //级联删除
+      const rows2 = await this.model('question').where({ question_id: id }).update({ question_id: 0 })
       return this.success({ affectedRows: rows });
     }
     if (isGet) {
@@ -143,11 +145,14 @@ module.exports = class extends Base {
       return this.success({ affectedRows: rows });
     }
     if (isDelete) {
-      const rows = await model.where({ id: id }).delete()
+      const rows = await model.where({ id: id }).delete();
+      //级联删除
+      const rows2 = await this.model('options').where({ question_id: id }).delete();
+      // const rows3 = await this.model('user_answer').where({ question_id: id }).delete();
       return this.success({ affectedRows: rows });
     }
     if (isGet) {
-      const data = await model.select()
+      const data = await model.select();
       return this.json(data);
     }
   }

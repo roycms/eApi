@@ -12,7 +12,7 @@ module.exports = class extends Base {
         const evaluation = yield model.where({ id: _this.get("id") }).find();
         let questionModel = _this.model('question');
         const questions = yield questionModel.where({ evaluation_id: _this.get("id") }).select();
-        const questions_not = yield questionModel.where({ evaluation_id: null }).select();
+        const questions_not = yield questionModel.where({ evaluation_id: 0 }).select();
 
         console.log('============:', JSON.stringify(evaluation));
         _this.assign({

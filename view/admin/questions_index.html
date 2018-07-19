@@ -14,21 +14,21 @@
 <div class="page-container">
 
 	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l">
-    <a href="javascript:;" onclick="member_add('添加测试结果','/admin/evaluation_add','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加测试结果</a>
-  </span> <span class="r">共有数据：<strong><%= evaluations.length %></strong> 条</span> </div>
+    <a href="javascript:;" onclick="member_add('添加测试题','/admin/question_add','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加测试题</a>
+  </span> <span class="r">共有数据：<strong><%= questions.length %></strong> 条</span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
 			<tr class="text-c">
 
 				<th width="80">ID</th>
-				<th width="">测试结果标题</th>
+				<th width="">问题标题</th>
 				<th width="">时间</th>
 				<th width="100">操作</th>
 			</tr>
 		</thead>
 		<tbody>
-      <% evaluations.forEach(function(vo){ %>
+      <% questions.forEach(function(vo){ %>
 			<tr class="text-c">
 
 
@@ -36,7 +36,7 @@
 				<td><u style="cursor:pointer" class="text-primary" ><%= vo.title %></u></td>
 				<td><%= vo.create_time %></td>
 				<td class="td-manage">
-          <a title="编辑" href="javascript:;" onclick="edit('编辑','/admin/evaluation_add?id=<%= vo.id %>','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+          <a title="编辑" href="javascript:;" onclick="edit('编辑','/admin/question_add?id=<%= vo.id %>','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
 
           <a title="删除" href="javascript:;" onclick="del(this,'<%= vo.id %>')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
 
@@ -85,7 +85,7 @@ function del(obj,id){
 	layer.confirm('确认要删除吗？',function(index){
 		$.ajax({
 			type: 'DELETE',
-			url: '/api/v1/evaluation?id=' + id,
+			url: '/api/v1/question?id=' + id,
 			dataType: 'json',
 			success: function(data){
 				$(obj).parents("tr").remove();

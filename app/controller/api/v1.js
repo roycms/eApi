@@ -131,6 +131,8 @@ module.exports = class extends Base {
       }
       if (isDelete) {
         const rows = yield model.where({ id: id }).delete();
+        //级联删除
+        const rows2 = yield _this5.model('question').where({ question_id: id }).update({ question_id: 0 });
         return _this5.success({ affectedRows: rows });
       }
       if (isGet) {
@@ -163,6 +165,9 @@ module.exports = class extends Base {
       }
       if (isDelete) {
         const rows = yield model.where({ id: id }).delete();
+        //级联删除
+        const rows2 = yield _this6.model('options').where({ question_id: id }).delete();
+        // const rows3 = await this.model('user_answer').where({ question_id: id }).delete();
         return _this6.success({ affectedRows: rows });
       }
       if (isGet) {
