@@ -9,17 +9,13 @@
         "think",
         "Model",
         "relation",
-        "evaluation",
-        "type",
-        "HAS_ONE",
-        "key",
-        "fKey",
         "user_answer",
+        "type",
         "HAS_MANY"
     ],
-    "mappings": "AAAAA,OAAOC,OAAP,GAAiB,cAAcC,MAAMC,KAApB,CAA0B;AACzC,MAAIC,QAAJ,GAAe;AACb,WAAO;AACLC,kBAAY;AACVC,cAAMJ,MAAMC,KAAN,CAAYI,OADR;AAEVC,aAAI,eAFM;AAGVC,cAAK;AAHK,OADP;AAMLC,mBAAa;AACXJ,cAAMJ,MAAMC,KAAN,CAAYQ;AADP;AANR,KAAP;AAUD;AAZwC,CAA3C",
+    "mappings": "AAAAA,OAAOC,OAAP,GAAiB,cAAcC,MAAMC,KAApB,CAA0B;AACzC,MAAIC,QAAJ,GAAe;AACb,WAAO;AACLC,mBAAa;AACXC,cAAMJ,MAAMC,KAAN,CAAYI;AADP;AADR,KAAP;AAKD;AAPwC,CAA3C",
     "file": "../../src/model/task_flows.js",
     "sourcesContent": [
-        "module.exports = class extends think.Model {\n  get relation() {\n    return {\n      evaluation: {\n        type: think.Model.HAS_ONE,\n        key:\"evaluation_id\",\n        fKey:\"id\"\n      },\n      user_answer: {\n        type: think.Model.HAS_MANY\n      }\n    }\n  }\n};\n"
+        "module.exports = class extends think.Model {\n  get relation() {\n    return {\n      user_answer: {\n        type: think.Model.HAS_MANY\n      }\n    }\n  }\n};\n"
     ]
 }

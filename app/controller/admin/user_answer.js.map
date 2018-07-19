@@ -1,0 +1,34 @@
+{
+    "version": 3,
+    "sources": [
+        "../../../src/controller/admin/user_answer.js"
+    ],
+    "names": [
+        "Base",
+        "require",
+        "module",
+        "exports",
+        "indexAction",
+        "get",
+        "task_flows",
+        "model",
+        "order",
+        "where",
+        "user_id",
+        "status",
+        "find",
+        "user_answers",
+        "user_answer",
+        "console",
+        "log",
+        "JSON",
+        "stringify",
+        "assign",
+        "display"
+    ],
+    "mappings": ";;AAAA,MAAMA,OAAOC,QAAQ,YAAR,CAAb;;AAEAC,OAAOC,OAAP,GAAiB,cAAcH,IAAd,CAAmB;AAC5BI,aAAN,GAAoB;AAAA;;AAAA;AAClB,UAAI,MAAKC,GAAL,CAAS,SAAT,KAAuB,IAA3B,EAAgC;AAC9B,cAAMC,aAAa,MAAM,MAAKC,KAAL,CAAW,YAAX,EAAyBC,KAAzB,CAA+B,SAA/B,EAA0CC,KAA1C,CAAgD;AACvEC,mBAAS,MAAKL,GAAL,CAAS,SAAT,CAD8D;AAEvEM,kBAAO;AAFgE,SAAhD,EAGtBC,IAHsB,EAAzB;AAIA,cAAMC,eAAeP,WAAWQ,WAAhC;AACAC,gBAAQC,GAAR,CAAY,eAAZ,EAA6BC,KAAKC,SAAL,CAAeZ,UAAf,CAA7B;AACAS,gBAAQC,GAAR,CAAY,eAAZ,EAA6BC,KAAKC,SAAL,CAAeL,YAAf,CAA7B;AACA,cAAKM,MAAL,CAAY;AACVN,wBAAcA;AADJ,SAAZ;AAGD,OAXD,MAWM;AACJ,cAAKM,MAAL,CAAY;AACVN,wBAAc;AADJ,SAAZ;AAGD;;AAED,aAAO,MAAM,MAAKO,OAAL,EAAb;AAlBkB;AAmBnB;AApBiC,CAApC",
+    "file": "../../../src/controller/admin/user_answer.js",
+    "sourcesContent": [
+        "const Base = require('../base.js');\n\nmodule.exports = class extends Base {\n  async indexAction() {\n    if (this.get(\"user_id\") != null){\n      const task_flows = await this.model('task_flows').order('id DESC').where({\n        user_id: this.get(\"user_id\"),\n        status:1\n      }).find();\n      const user_answers = task_flows.user_answer;\n      console.log('============:', JSON.stringify(task_flows) );\n      console.log('++++++++++++:', JSON.stringify(user_answers) );\n      this.assign({\n        user_answers: user_answers\n      });\n    }else {\n      this.assign({\n        user_answers: null\n      });\n    }\n\n    return await this.display();\n  }\n};\n"
+    ]
+}

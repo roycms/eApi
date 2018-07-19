@@ -29,7 +29,7 @@
 				<th width="90">手机</th>
 				<th width="150">年级</th>
 				<th width="">年龄</th>
-				<th width="100">操作</th>
+				<th width="180">操作</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -44,6 +44,7 @@
 				<td><%= vo.grade %></td>
 				<td class="text-l"><%= vo.age %></td>
 				<td class="td-manage">
+					<a href="/admin/user_answer?user_id=<%= vo.id %>">查看评测结果</a>
 
           <a title="编辑" href="javascript:;" onclick="member_edit('编辑','member-add.html','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
 
