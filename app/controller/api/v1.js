@@ -12,6 +12,10 @@ var ossStream = require('aliyun-oss-upload-stream')(new ALY.OSS({
   endpoint: 'http://oss-cn-beijing.aliyuncs.com',
   apiVersion: '2013-10-15'
 }));
+//微信小程序
+var wx_appid = "wx7a794dc3cc2dfaa6";
+var wx_secret = "1697d5ecf2f7b3a62b4f9f51e2a17c58"; //小程序的 app secret
+
 
 module.exports = class extends Base {
 
@@ -295,9 +299,7 @@ module.exports = class extends Base {
   //获取 openid
   openid(code) {
     return _asyncToGenerator(function* () {
-      let appid = "wx7a794dc3cc2dfaa6";
-      let secret = "1697d5ecf2f7b3a62b4f9f51e2a17c58"; //小程序的 app secret
-      var url = "https://api.weixin.qq.com/sns/jscode2session?appid=" + appid + "&secret=" + secret + "&js_code=" + code + "&grant_type=authorization_code";
+      var url = "https://api.weixin.qq.com/sns/jscode2session?appid=" + wx_appid + "&secret=" + wx_secret + "&js_code=" + code + "&grant_type=authorization_code";
       var openid = yield new Promise(function (resolve, reject) {
         request(url, function (error, response, body) {
           if (!error && response.statusCode == 200) {
