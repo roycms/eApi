@@ -12,13 +12,16 @@
         "user",
         "model",
         "users",
+        "get",
+        "where",
+        "is_admin",
         "select",
         "assign",
         "display"
     ],
-    "mappings": ";;AAAA,MAAMA,OAAOC,QAAQ,YAAR,CAAb;;AAEAC,OAAOC,OAAP,GAAiB,cAAcH,IAAd,CAAmB;AAC5BI,aAAN,GAAoB;AAAA;;AAAA;AAClB,UAAIC,OAAO,MAAKC,KAAL,CAAW,MAAX,CAAX;AACA,YAAMC,QAAQ,MAAMF,KAAKG,MAAL,EAApB;AACA,YAAKC,MAAL,CAAY,EAAEF,OAAOA,KAAT,EAAZ;AACA,aAAO,MAAM,MAAKG,OAAL,EAAb;AAJkB;AAKnB;AANiC,CAApC",
+    "mappings": ";;AAAA,MAAMA,OAAOC,QAAQ,YAAR,CAAb;;AAEAC,OAAOC,OAAP,GAAiB,cAAcH,IAAd,CAAmB;AAC5BI,aAAN,GAAoB;AAAA;;AAAA;AAClB,UAAIC,OAAO,MAAKC,KAAL,CAAW,MAAX,CAAX;AACA,UAAIC,KAAJ;AACA,UAAI,MAAKC,GAAL,CAAS,SAAT,KAAuB,CAA3B,EAA6B;AACzBD,gBAAQ,MAAMF,KAAKI,KAAL,CAAW,EAACC,UAAS,CAAV,EAAX,EAAyBC,MAAzB,EAAd;AACH,OAFD,MAGK;AACDJ,gBAAQ,MAAMF,KAAKM,MAAL,EAAd;AACH;AACD,YAAKC,MAAL,CAAY,EAAEL,OAAOA,KAAT,EAAZ;AACA,aAAO,MAAM,MAAKM,OAAL,EAAb;AAVkB;AAWnB;AAZiC,CAApC",
     "file": "../../../src/controller/admin/users.js",
     "sourcesContent": [
-        "const Base = require('../base.js');\n\nmodule.exports = class extends Base {\n  async indexAction() {\n    let user = this.model('user');\n    const users = await user.select();\n    this.assign({ users: users});\n    return await this.display();\n  }\n};\n"
+        "const Base = require('../base.js');\n\nmodule.exports = class extends Base {\n  async indexAction() {\n    let user = this.model('user');\n    var users;\n    if (this.get(\"isAdmin\") == 1){\n        users = await user.where({is_admin:1}).select();\n    }\n    else {\n        users = await user.select();\n    }\n    this.assign({ users: users});\n    return await this.display();\n  }\n};\n"
     ]
 }

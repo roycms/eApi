@@ -8,7 +8,12 @@ module.exports = class extends Base {
 
     return _asyncToGenerator(function* () {
       let user = _this.model('user');
-      const users = yield user.select();
+      var users;
+      if (_this.get("isAdmin") == 1) {
+        users = yield user.where({ is_admin: 1 }).select();
+      } else {
+        users = yield user.select();
+      }
       _this.assign({ users: users });
       return yield _this.display();
     })();

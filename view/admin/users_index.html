@@ -23,11 +23,11 @@
 		<thead>
 			<tr class="text-c">
 
-				<th width="80">ID</th>
-				<th width="100">用户名</th>
-				<th width="40">性别</th>
-				<th width="90">手机</th>
-				<th width="150">年级</th>
+				<th width="50">ID</th>
+				<th width="">用户名</th>
+				<th width="">性别</th>
+				<th width="">手机</th>
+				<th width="">年级</th>
 				<th width="">年龄</th>
 				<th width="180">操作</th>
 			</tr>
@@ -38,7 +38,11 @@
 
 
 				<td><%= vo.id %></td>
-				<td><a href="/admin/user_answer?user_id=<%= vo.id %>" style="cursor:pointer" class="text-primary" ><%= vo.username %></a></td>
+				<td>
+					<% if (vo.is_admin == 1) { %>
+						 <i class="Hui-iconfont" style="color:red" title="是管理员，设置管理员需要联系超级管理员。"></i>
+						<% } %>
+					<a href="/admin/user_answer?user_id=<%= vo.id %>" style="cursor:pointer" class="text-primary" ><%= vo.username %></a></td>
 				<td><%= vo.sex %></td>
 				<td><%= vo.phone %></td>
 				<td><%= vo.grade %></td>

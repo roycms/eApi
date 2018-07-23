@@ -11,6 +11,7 @@ var ossStream = require('aliyun-oss-upload-stream')(new ALY.OSS({
   apiVersion: '2013-10-15'
 }));
 //微信小程序
+var wx_api = "https://api.weixin.qq.com/sns/jscode2session";
 var wx_appid = "wx7a794dc3cc2dfaa6";
 var wx_secret = "1697d5ecf2f7b3a62b4f9f51e2a17c58"; //小程序的 app secret
 
@@ -31,7 +32,8 @@ module.exports = class extends Base {
      const user = this.model('user');
      const data = await user.where({
        username: username,
-       password: passwordMd5Val
+       password: passwordMd5Val,
+       is_admin:1
      }).find();
      // this.json(data)
      if (JSON.stringify(data) == "{}"){
@@ -257,9 +259,10 @@ module.exports = class extends Base {
 
   //获取 openid
   async openid(code){
-    var url = "https://api.weixin.qq.com/sns/jscode2session?appid=" + wx_appid
-    + "&secret="+wx_secret
-    + "&js_code="+code
+    var url = wx_api
+    + "?appid=" + wx_appid
+    + "&secret=" + wx_secret
+    + "&js_code=" + code
     + "&grant_type=authorization_code";
     var openid = await new Promise((resolve,reject)=>{
         request(url,function(error,response,body){
