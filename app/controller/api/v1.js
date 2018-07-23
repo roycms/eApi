@@ -293,14 +293,11 @@ module.exports = class extends Base {
   }
 
   //获取 openid
-  openid() {
-    var _this12 = this;
-
+  openid(code) {
     return _asyncToGenerator(function* () {
       let appid = "wx7a794dc3cc2dfaa6";
-      let secret = "SECRET"; //小程序的 app secret
-      let js_code = _this12.get("code"); //登录时获取的 code
-      var url = "https://api.weixin.qq.com/sns/jscode2session?appid=" + appid + "&secret=" + secret + "&js_code=" + js_code + "&grant_type=authorization_code";
+      let secret = "1697d5ecf2f7b3a62b4f9f51e2a17c58"; //小程序的 app secret
+      var url = "https://api.weixin.qq.com/sns/jscode2session?appid=" + appid + "&secret=" + secret + "&js_code=" + code + "&grant_type=authorization_code";
       var openid = yield new Promise(function (resolve, reject) {
         request(url, function (error, response, body) {
           if (!error && response.statusCode == 200) {
@@ -322,23 +319,24 @@ module.exports = class extends Base {
   }
   //微信登录
   wxloginAction() {
-    var _this13 = this;
+    var _this12 = this;
 
     return _asyncToGenerator(function* () {
-      var openid = yield _this13.openid();
+      let js_code = _this12.get("code"); //登录时获取的 code
+      var openid = yield _this12.openid(js_code);
       console.log("======________" + openid);
       if (typeof openid == "object") {
-        return _this13.fail(300, "获取openid失败！ code:-->" + JSON.stringify(openid));
+        return _this12.fail(300, "获取openid失败！ code:-->" + JSON.stringify(openid));
       } else {
-        const model = _this13.model('user');
+        const model = _this12.model('user');
         const user = yield model.where({ wid: openid }).find();
         if (JSON.stringify(user) != "{}") {
           //存在
-          return _this13.success(user);
+          return _this12.success(user);
         } else {
           //不存在user
           const rows = yield model.add({ wid: openid });
-          return _this13.success({ affectedRows: rows });
+          return _this12.success({ affectedRows: rows });
         }
       }
     })();

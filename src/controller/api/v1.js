@@ -253,13 +253,12 @@ module.exports = class extends Base {
   }
 
   //获取 openid
-  async openid(){
+  async openid(code){
     let appid = "wx7a794dc3cc2dfaa6";
-    let secret = "SECRET"; //小程序的 app secret
-    let js_code = this.get("code"); //登录时获取的 code
+    let secret = "1697d5ecf2f7b3a62b4f9f51e2a17c58"; //小程序的 app secret
     var url = "https://api.weixin.qq.com/sns/jscode2session?appid=" + appid
     + "&secret="+secret
-    + "&js_code="+js_code
+    + "&js_code="+code
     + "&grant_type=authorization_code";
     var openid = await new Promise((resolve,reject)=>{
         request(url,function(error,response,body){
@@ -281,7 +280,8 @@ module.exports = class extends Base {
   }
   //微信登录
    async wxloginAction(){
-      var openid = await this.openid();
+      let js_code = this.get("code"); //登录时获取的 code
+      var openid = await this.openid(js_code);
       console.log("======________"+openid);
       if (typeof(openid) == "object") {
         return this.fail(300, "获取openid失败！ code:-->" + JSON.stringify(openid));
