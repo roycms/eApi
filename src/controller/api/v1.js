@@ -1,5 +1,6 @@
 const Base = require('../base.js');
-
+//网络请求模块
+var request = require('request');
 //阿里云
 var fs = require("fs");
 var ALY = require('aliyun-sdk');
@@ -12,6 +13,7 @@ var ossStream = require('aliyun-oss-upload-stream')(new ALY.OSS({
 
 
 module.exports = class extends Base {
+
   indexAction() {
     return this.json({code:200});
   }
@@ -249,4 +251,50 @@ module.exports = class extends Base {
       return this.success({ affectedRows: rows });
     }
   }
+
+  //获取 openid
+  async openid(){
+    let appid = "wx7a794dc3cc2dfaa6";
+    let secret = "SECRET"; //小程序的 app secret
+    let js_code = this.get("code"); //登录时获取的 code
+    var url = "https://api.weixin.qq.com/sns/jscode2session?appid=" + appid
+    + "&secret="+secret
+    + "&js_code="+js_code
+    + "&grant_type=authorization_code";
+    var openid = await new Promise((resolve,reject)=>{
+        request(url,function(error,response,body){
+            if(!error && response.statusCode == 200){
+                //输出返回的内容
+                console.log("======"+body);
+                var rt = JSON.parse(body)
+                if (rt.openid != undefined) {
+                  resolve(rt.openid);
+                }else {
+                  resolve(rt);
+                }
+            }else {
+              reject();
+            }
+        });
+      });
+      return openid;
+  }
+  //微信登录
+   async wxloginAction(){
+      var openid = await this.openid();
+      console.log("======________"+openid);
+      if (typeof(openid) == "object") {
+        return this.fail(300, "获取openid失败！ code:-->" + JSON.stringify(openid));
+      }
+      else {
+        const model = this.model('user');
+        const user = await model.where({wid: openid}).find();
+          if (JSON.stringify(user) != "{}"){ //存在
+            return this.success(user);
+          } else { //不存在user
+            const rows = await model.add({wid:openid});
+            return this.success({ affectedRows: rows });
+          }
+      }
+    }
 };

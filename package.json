@@ -13,6 +13,7 @@
   "dependencies": {
     "aliyun-oss-upload-stream": "^1.3.0",
     "aliyun-sdk": "^1.11.8",
+    "request": "^2.87.0",
     "think-cache": "^1.0.0",
     "think-cache-file": "^1.0.8",
     "think-logger3": "^1.0.0",
