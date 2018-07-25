@@ -1,0 +1,23 @@
+{
+    "version": 3,
+    "sources": [
+        "../../src/model/user.js"
+    ],
+    "names": [
+        "module",
+        "exports",
+        "think",
+        "Model",
+        "relation",
+        "task_flows",
+        "type",
+        "HAS_MANY",
+        "order",
+        "limit"
+    ],
+    "mappings": "AAAAA,OAAOC,OAAP,GAAiB,cAAcC,MAAMC,KAApB,CAA0B;AACzC,MAAIC,QAAJ,GAAe;AACb,WAAO;AACLC,kBAAY;AACVC,cAAMJ,MAAMC,KAAN,CAAYI,QADR;AAEVC,eAAM,SAFI;AAGVC,eAAM,CAHI;AAIVL,kBAAU;AAJA;AADP,KAAP;AAQD;AAVwC,CAA3C",
+    "file": "../../src/model/user.js",
+    "sourcesContent": [
+        "module.exports = class extends think.Model {\n  get relation() {\n    return {\n      task_flows: {\n        type: think.Model.HAS_MANY,\n        order:\"id DESC\",\n        limit:1,\n        relation: false\n      }\n    }\n  }\n};\n"
+    ]
+}

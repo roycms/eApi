@@ -48,12 +48,17 @@ module.exports = class extends Base {
   }
   //用户注册和更改用户资料
   async userAction(){
+    const isGet = this.isMethod('GET');
     const isPut = this.isMethod('PUT');
     const isPost = this.isMethod('POST');
     const isDelete = this.isMethod('DELETE');
     const model = this.model('user');
     const id = this.get("id");
 
+    if (isGet){
+      const user = await model.where({id: id }).find();
+      return this.success(user);
+    }
     if (isPut) {
       const data = this.post();
       data.password =  think.md5(data.password);

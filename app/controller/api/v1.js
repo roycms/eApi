@@ -56,17 +56,23 @@ module.exports = class extends Base {
     var _this3 = this;
 
     return _asyncToGenerator(function* () {
+      const isGet = _this3.isMethod('GET');
       const isPut = _this3.isMethod('PUT');
       const isPost = _this3.isMethod('POST');
       const isDelete = _this3.isMethod('DELETE');
       const model = _this3.model('user');
       const id = _this3.get("id");
 
+      if (isGet) {
+        const user = yield model.where({ id: id }).find();
+        return _this3.success(user);
+      }
       if (isPut) {
         const data = _this3.post();
         data.password = think.md5(data.password);
         const rows = yield model.where({ id: id }).update(data);
-        return _this3.success({ affectedRows: rows });
+        const user = yield model.where({ id: id }).find();
+        return _this3.success(user);
       }
       if (isPost) {
         const data = _this3.post();
