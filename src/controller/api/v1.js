@@ -58,7 +58,8 @@ module.exports = class extends Base {
       const data = this.post();
       data.password =  think.md5(data.password);
       const rows = await model.where({ id: id }).update(data);
-      return this.success({ affectedRows: rows });
+      const user = await model.where({id: id }).find();
+      return this.success(user);
     }
     if (isPost) {
       const data = this.post();
