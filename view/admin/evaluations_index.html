@@ -14,7 +14,7 @@
 <div class="page-container">
 
 	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l">
-    <a href="javascript:;" onclick="member_add('添加测试结果','/admin/evaluation_add','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加测试结果</a>
+    <a href="javascript:;" onclick="member_add('添加测试结果','/admin/evaluation_add?analysis_id=<%= analysis_id %>','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加测试结果</a>
   </span> <span class="r">共有数据：<strong><%= evaluations.length %></strong> 条</span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
@@ -33,10 +33,10 @@
 
 
 				<td><%= vo.id %></td>
-				<td><u style="cursor:pointer" class="text-primary" onclick="edit('编辑','/admin/evaluation_add?id=<%= vo.id %>','4','','510')" ><%= vo.title %></u></td>
+				<td><u style="cursor:pointer" class="text-primary" onclick="edit('编辑','/admin/evaluation_add?id=<%= vo.id %>&analysis_id=<%= analysis_id %>','4','','510')" ><%= vo.title %></u></td>
 				<td><%= vo.create_time %></td>
 				<td class="td-manage">
-          <a title="编辑" href="javascript:;" onclick="edit('编辑','/admin/evaluation_add?id=<%= vo.id %>','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+          <a title="编辑" href="javascript:;" onclick="edit('编辑','/admin/evaluation_add?id=<%= vo.id %>&analysis_id=<%= analysis_id %>','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
 
           <a title="删除" href="javascript:;" onclick="del(this,'<%= vo.id %>')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
 

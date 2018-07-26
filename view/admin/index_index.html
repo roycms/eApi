@@ -46,7 +46,16 @@
 </header>
 <aside class="Hui-aside">
 	<div class="menu_dropdown bk_2">
-
+		<dl id="menu-comments">
+			<dt><i class="Hui-iconfont">&#xe622;</i> 测试主体<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dd>
+				<ul>
+					<% analysis.forEach(function(vo){ %>
+						<li><a data-href="/admin/evaluations?analysis_id=<%= vo.id %>" data-title="<%= vo.title %>" href="javascript:;"><%= vo.title %></a></li>
+					<% }); %>
+			</ul>
+		</dd>
+	</dl>
 		<dl id="menu-comments">
 			<dt><i class="Hui-iconfont">&#xe622;</i> 测试题<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
@@ -55,14 +64,14 @@
 			</ul>
 		</dd>
 	</dl>
-  <dl id="menu-comments">
+  <!-- <dl id="menu-comments">
     <dt><i class="Hui-iconfont">&#xe622;</i> 测试结果<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
     <dd>
       <ul>
         <li><a data-href="/admin/evaluations" data-title="测试结果管理" href="javascript:;">测试结果管理</a></li>
     </ul>
   </dd>
-</dl>
+</dl> -->
 		<dl id="menu-member">
 			<dt><i class="Hui-iconfont">&#xe60d;</i> 用户管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>

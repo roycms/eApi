@@ -46,6 +46,29 @@ module.exports = class extends Base {
         return this.success(200, "登录成功！");
      }
   }
+  async webLoginAction() {
+     const username = this.post('username');
+     const password = this.post('password');
+     if (username == undefined || password == undefined) {
+       return this.fail(300, "参数错误");
+     }
+     const passwordMd5Val = think.md5(password);
+     const user = this.model('user');
+     const data = await user.where({
+       username: username,
+       password: passwordMd5Val
+     }).find();
+     // this.json(data)
+     if (JSON.stringify(data) == "{}"){
+        await this.session('sessionKey', null);
+        return this.fail(300, "账户名或者密码错误！");
+     }
+     else {
+       //设置session
+        await this.session('sessionKey', username);
+        return this.json(data);
+     }
+  }
   //用户注册和更改用户资料
   async userAction(){
     const isGet = this.isMethod('GET');

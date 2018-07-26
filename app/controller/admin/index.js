@@ -12,8 +12,12 @@ module.exports = class extends Base {
       if (think.isEmpty(sessionKey)) {
         _this.redirect("/login");
       } else {
-        _this.assign({ sessionKey: sessionKey });
-        return _this.display();
+        let analysi = _this.model('analysis');
+        const analysis = yield analysi.select();
+        _this.assign({ analysis: analysis });
+
+        _this.assign({ sessionKey: sessionKey, analysis: analysis });
+        return yield _this.display();
       }
     })();
   }

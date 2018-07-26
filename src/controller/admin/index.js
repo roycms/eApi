@@ -7,8 +7,12 @@ module.exports = class extends Base {
     if (think.isEmpty(sessionKey)){
       this.redirect("/login")
     }else {
-      this.assign({ sessionKey: sessionKey});
-      return this.display();
+      let analysi = this.model('analysis');
+      const analysis = await analysi.select();
+      this.assign({ analysis: analysis});
+
+      this.assign({ sessionKey: sessionKey,analysis: analysis});
+      return await this.display();
     }
   }
   async loginOutAction(){

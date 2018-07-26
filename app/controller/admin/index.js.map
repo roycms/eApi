@@ -14,13 +14,17 @@
         "think",
         "isEmpty",
         "redirect",
+        "analysi",
+        "model",
+        "analysis",
+        "select",
         "assign",
         "display",
         "loginOutAction"
     ],
-    "mappings": ";;AAAA,MAAMA,OAAOC,QAAQ,YAAR,CAAb;;AAEAC,OAAOC,OAAP,GAAiB,cAAcH,IAAd,CAAmB;AAC5BI,aAAN,GAAoB;AAAA;;AAAA;;AAElB,YAAMC,aAAa,MAAM,MAAKC,OAAL,CAAa,YAAb,CAAzB;AACA,UAAIC,MAAMC,OAAN,CAAcH,UAAd,CAAJ,EAA8B;AAC5B,cAAKI,QAAL,CAAc,QAAd;AACD,OAFD,MAEM;AACJ,cAAKC,MAAL,CAAY,EAAEL,YAAYA,UAAd,EAAZ;AACA,eAAO,MAAKM,OAAL,EAAP;AACD;AARiB;AASnB;AACKC,gBAAN,GAAsB;AAAA;;AAAA;AACpB;AACA,YAAM,OAAKN,OAAL,CAAa,IAAb,CAAN;AACA,aAAKG,QAAL,CAAc,QAAd;AAHoB;AAIrB;AAfiC,CAApC;AAiBA",
+    "mappings": ";;AAAA,MAAMA,OAAOC,QAAQ,YAAR,CAAb;;AAEAC,OAAOC,OAAP,GAAiB,cAAcH,IAAd,CAAmB;AAC5BI,aAAN,GAAoB;AAAA;;AAAA;;AAElB,YAAMC,aAAa,MAAM,MAAKC,OAAL,CAAa,YAAb,CAAzB;AACA,UAAIC,MAAMC,OAAN,CAAcH,UAAd,CAAJ,EAA8B;AAC5B,cAAKI,QAAL,CAAc,QAAd;AACD,OAFD,MAEM;AACJ,YAAIC,UAAU,MAAKC,KAAL,CAAW,UAAX,CAAd;AACA,cAAMC,WAAW,MAAMF,QAAQG,MAAR,EAAvB;AACA,cAAKC,MAAL,CAAY,EAAEF,UAAUA,QAAZ,EAAZ;;AAEA,cAAKE,MAAL,CAAY,EAAET,YAAYA,UAAd,EAAyBO,UAAUA,QAAnC,EAAZ;AACA,eAAO,MAAM,MAAKG,OAAL,EAAb;AACD;AAZiB;AAanB;AACKC,gBAAN,GAAsB;AAAA;;AAAA;AACpB;AACA,YAAM,OAAKV,OAAL,CAAa,IAAb,CAAN;AACA,aAAKG,QAAL,CAAc,QAAd;AAHoB;AAIrB;AAnBiC,CAApC;AAqBA",
     "file": "../../../src/controller/admin/index.js",
     "sourcesContent": [
-        "const Base = require('../base.js');\n\nmodule.exports = class extends Base {\n  async indexAction() {\n\n    const sessionKey = await this.session('sessionKey');\n    if (think.isEmpty(sessionKey)){\n      this.redirect(\"/login\")\n    }else {\n      this.assign({ sessionKey: sessionKey});\n      return this.display();\n    }\n  }\n  async loginOutAction(){\n    // 删除整个 session\n    await this.session(null);\n    this.redirect(\"/login\")\n  }\n};\n//# sourceMappingURL=index.js.map\n"
+        "const Base = require('../base.js');\n\nmodule.exports = class extends Base {\n  async indexAction() {\n\n    const sessionKey = await this.session('sessionKey');\n    if (think.isEmpty(sessionKey)){\n      this.redirect(\"/login\")\n    }else {\n      let analysi = this.model('analysis');\n      const analysis = await analysi.select();\n      this.assign({ analysis: analysis});\n\n      this.assign({ sessionKey: sessionKey,analysis: analysis});\n      return await this.display();\n    }\n  }\n  async loginOutAction(){\n    // 删除整个 session\n    await this.session(null);\n    this.redirect(\"/login\")\n  }\n};\n//# sourceMappingURL=index.js.map\n"
     ]
 }

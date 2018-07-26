@@ -13,11 +13,13 @@ module.exports = class extends Base {
          this.assign({
            evaluation:evaluation,
            questions:questions,
-           questions_not:questions_not
+           questions_not:questions_not,
+           analysis_id:this.get("analysis_id")
          })
    }else {
         this.assign({
-        evaluation:null
+        evaluation:null,
+        analysis_id:this.get("analysis_id")
         })
     }
 

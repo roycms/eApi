@@ -8,8 +8,8 @@ module.exports = class extends Base {
 
     return _asyncToGenerator(function* () {
       let evaluation = _this.model('evaluation');
-      const evaluations = yield evaluation.select();
-      _this.assign({ evaluations: evaluations });
+      const evaluations = yield evaluation.where({ analysis_id: _this.get("analysis_id") }).select();
+      _this.assign({ evaluations: evaluations, analysis_id: _this.get("analysis_id") });
       return yield _this.display();
     })();
   }
