@@ -359,4 +359,10 @@ module.exports = class extends Base {
           }
       }
     }
+
+    //短信接口
+    async sms(code){
+
+    }
+
 };

@@ -410,5 +410,11 @@ module.exports = class extends Base {
       }
     })();
   }
+
+  //短信接口
+  sms(code) {
+    return _asyncToGenerator(function* () {})();
+  }
+
 };
 //# sourceMappingURL=v1.js.map
