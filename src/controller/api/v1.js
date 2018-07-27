@@ -188,8 +188,16 @@ module.exports = class extends Base {
       return this.success({ affectedRows: rows });
     }
     if (isGet) {
-      const data = await model.select()
-      return this.json(data);
+      var evaluation_id = this.get("evaluation_id");
+      if (evaluation_id != null) {
+        const data = await model.where({id:evaluation_id}).find()
+        return this.json(data);
+      }
+      else {
+        const data = await model.select()
+        return this.json(data);
+      }
+
     }
   }
 

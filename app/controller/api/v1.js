@@ -211,8 +211,14 @@ module.exports = class extends Base {
         return _this7.success({ affectedRows: rows });
       }
       if (isGet) {
-        const data = yield model.select();
-        return _this7.json(data);
+        var evaluation_id = _this7.get("evaluation_id");
+        if (evaluation_id != null) {
+          const data = yield model.where({ id: evaluation_id }).find();
+          return _this7.json(data);
+        } else {
+          const data = yield model.select();
+          return _this7.json(data);
+        }
       }
     })();
   }
