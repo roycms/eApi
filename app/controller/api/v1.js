@@ -62,7 +62,7 @@ module.exports = class extends Base {
       }
       const passwordMd5Val = think.md5(password);
       const user = _this3.model('user');
-      const data = yield user.where({
+      var data = yield user.where({
         username: username,
         password: passwordMd5Val
       }).find();
@@ -71,6 +71,8 @@ module.exports = class extends Base {
         yield _this3.session('sessionKey', null);
         return _this3.fail(300, "账户名或者密码错误！");
       } else {
+        var task_flows = yield _this3.model('task_flows').where({ user_id: data.id }).find(); //e_task_flows
+        data.task_flows_id = task_flows.id;
         //设置session
         yield _this3.session('sessionKey', username);
         return _this3.json(data);
@@ -336,7 +338,7 @@ module.exports = class extends Base {
       }
       //查询某个用户的所有测试 参数 user_id
       if (isGet) {
-        const data = yield model.where({ user_id: _this11.get("user_id") }).select();
+        const data = yield model.where({ user_id: _this11.get("user_id") }).select(); //e_task_flows
         return _this11.json(data);
       }
     })();

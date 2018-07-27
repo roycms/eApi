@@ -54,7 +54,7 @@ module.exports = class extends Base {
      }
      const passwordMd5Val = think.md5(password);
      const user = this.model('user');
-     const data = await user.where({
+     var data = await user.where({
        username: username,
        password: passwordMd5Val
      }).find();
@@ -64,6 +64,8 @@ module.exports = class extends Base {
         return this.fail(300, "账户名或者密码错误！");
      }
      else {
+       var task_flows = await this.model('task_flows').where({user_id: data.id}).find()  //e_task_flows
+       data.task_flows_id = task_flows.id;
        //设置session
         await this.session('sessionKey', username);
         return this.json(data);
@@ -299,7 +301,7 @@ module.exports = class extends Base {
     }
     //查询某个用户的所有测试 参数 user_id
     if (isGet) {
-      const data = await model.where({user_id: this.get("user_id")}).select()
+      const data = await model.where({user_id: this.get("user_id")}).select()  //e_task_flows
       return this.json(data);
     }
   }
