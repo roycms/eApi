@@ -453,6 +453,7 @@ module.exports = class extends Base {
               var rt = {
                 evaluationId:evaluations[i].id,
                 evaluationTitle:evaluations[i].title,
+                evaluation_content:evaluations[i].content,
                 scores:scores,
                 max_scores:max_scores
               }
