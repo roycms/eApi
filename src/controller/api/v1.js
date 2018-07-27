@@ -64,7 +64,7 @@ module.exports = class extends Base {
         return this.fail(300, "账户名或者密码错误！");
      }
      else {
-       var task_flows = await this.model('task_flows').where({user_id: data.id}).find()  //e_task_flows
+       var task_flows = await this.model('task_flows').where({user_id: data.id}).order('id DESC').find()  //e_task_flows
        data.task_flows_id = task_flows.id;
        //设置session
         await this.session('sessionKey', username);
@@ -328,9 +328,20 @@ module.exports = class extends Base {
       });
       const data = this.post();
       var rs = JSON.parse(data.data);
-      rs.forEach(function(item,index){
-        rs[index].task_flows_id = task_flows_id;
-      });
+      for(let i=0,len=rs.length;i<len;i++){
+        rs[i].task_flows_id = task_flows_id;
+        var question = await this.model('question').where({id:rs[i].question_id}).find();
+        var evaluation = await this.model('evaluation').where({id:rs[i].evaluation_id}).find();
+        rs[i].evaluation_id = question.evaluation_id;
+        rs[i].analysis_id = evaluation.analysis_id;
+      }
+      // rs.forEach(function(item,index){
+      //   rs[index].task_flows_id = task_flows_id;
+      //   var question = await this.model('question').where({id:rs[index].question_id}).find();
+      //   var evaluation = await this.model('evaluation').where({id:rs[index].evaluation_id}).find();
+      //   rs[index].evaluation_id = question.evaluation_id;
+      //   rs[index].analysis_id = evaluation.analysis_id;
+      // });
       const rows = await model.addMany(rs);
       return this.success({ task_flows_id: task_flows_id });
     }
