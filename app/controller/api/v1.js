@@ -376,8 +376,8 @@ module.exports = class extends Base {
         for (let i = 0, len = rs.length; i < len; i++) {
           rs[i].task_flows_id = task_flows_id;
           var question = yield _this13.model('question').where({ id: rs[i].question_id }).find();
-          var evaluation = yield _this13.model('evaluation').where({ id: rs[i].evaluation_id }).find();
           rs[i].evaluation_id = question.evaluation_id;
+          var evaluation = yield _this13.model('evaluation').where({ id: rs[i].evaluation_id }).find();
           rs[i].analysis_id = evaluation.analysis_id;
         }
         // rs.forEach(function(item,index){
