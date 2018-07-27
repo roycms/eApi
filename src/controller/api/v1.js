@@ -84,7 +84,7 @@ module.exports = class extends Base {
     }
     if (isPut) {
       const data = this.post();
-      if data.password != null {
+      if (data.password != null) {
         data.password =  think.md5(data.password);
       }
       const rows = await model.where({ id: id }).update(data);

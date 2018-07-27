@@ -95,7 +95,9 @@ module.exports = class extends Base {
       }
       if (isPut) {
         const data = _this4.post();
-        data.password = think.md5(data.password);
+        if (data.password != null) {
+          data.password = think.md5(data.password);
+        }
         const rows = yield model.where({ id: id }).update(data);
         const user = yield model.where({ id: id }).find();
         return _this4.success(user);
