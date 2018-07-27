@@ -84,7 +84,9 @@ module.exports = class extends Base {
     }
     if (isPut) {
       const data = this.post();
-      data.password =  think.md5(data.password);
+      if data.password != null {
+        data.password =  think.md5(data.password);
+      }
       const rows = await model.where({ id: id }).update(data);
       const user = await model.where({id: id }).find();
       return this.success(user);
@@ -306,11 +308,20 @@ module.exports = class extends Base {
   }
   //e_user_answers 批量回答多个问题
   async user_answersAction(){
+    const user_id = this.get('user_id');
     const isPost = this.isMethod('POST');
     const model = this.model('user_answer');
     if (isPost) {
+      const task_flows_id = await this.model('task_flows').add({
+        user_id:user_id,
+        status:1
+      });
       const data = this.post();
-      const rows = await model.addMany([data]);
+      var rs = JSON.parse(data.data);
+      rs.forEach(function(item,index){
+        rs[index].task_flows_id = task_flows_id;
+      });
+      const rows = await model.addMany(rs);
       return this.success({ affectedRows: rows });
     }
   }
@@ -361,8 +372,40 @@ module.exports = class extends Base {
     }
 
     //短信接口
-    async sms(code){
+    async smsCodeAction(){
+      let phone = this.get("phone"); //登录时获取的 code
 
+      var options = {
+          uri: 'http://180.76.110.67:5880/template/add',
+          method: 'POST',
+          json: {
+            "username":"h2-bjsf",//用户账号
+            "password":"h2-bjsf",//密码
+            "content":"您好,本次您的验证码${2}"//模板内容
+          }
+        };
+        request(options,function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                //输出返回的内容
+                console.log("======"+JSON.stringify(body));
+                console.log("======"+body);
+              }
+            });
+      await this.session(phone, 'smsCode');
+    }
+    async smsLoginAction(){
+      let phoneNum = this.post("phone");
+      let code = this.post("code");
+      if (this.session(phoneNum) == code) {
+        const model = this.model('user');
+        const user = await model.where({phone: phoneNum}).find();
+          if (JSON.stringify(user) != "{}"){ //存在
+            return this.success(user);
+          } else { //不存在user
+            const rows = await model.add({phone: phoneNum});
+            return this.success({ affectedRows: rows });
+          }
+      }
     }
 
 };

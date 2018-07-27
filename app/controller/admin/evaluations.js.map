@@ -19,9 +19,9 @@
         "assign",
         "display"
     ],
-    "mappings": ";;AAAA,MAAMA,OAAOC,QAAQ,YAAR,CAAb;;AAEAC,OAAOC,OAAP,GAAiB,cAAcH,IAAd,CAAmB;AAC5BI,aAAN,GAAoB;AAAA;;AAAA;AAClB,UAAIC,aAAa,MAAKC,KAAL,CAAW,YAAX,CAAjB;AACA,YAAMC,cAAc,MAAMF,WAAWG,KAAX,CAAiB,EAACC,aAAY,MAAKC,GAAL,CAAS,aAAT,CAAb,EAAjB,EAAwDC,MAAxD,EAA1B;AACA,YAAKC,MAAL,CAAY,EAAEL,aAAaA,WAAf,EAA2BE,aAAY,MAAKC,GAAL,CAAS,aAAT,CAAvC,EAAZ;AACA,aAAO,MAAM,MAAKG,OAAL,EAAb;AAJkB;AAKnB;AANiC,CAApC",
+    "mappings": ";;AAAA,MAAMA,OAAOC,QAAQ,YAAR,CAAb;;AAEAC,OAAOC,OAAP,GAAiB,cAAcH,IAAd,CAAmB;AAC5BI,aAAN,GAAoB;AAAA;;AAAA;AAClB,UAAIC,aAAa,MAAKC,KAAL,CAAW,YAAX,CAAjB;AACA,YAAMC,cAAc,MAAMF,WAAWG,KAAX,CAAiB,EAACC,aAAY,MAAKC,GAAL,CAAS,aAAT,CAAb,EAAjB,EAAwDC,MAAxD,EAA1B;AACA,YAAKC,MAAL,CAAY;AACVL,qBAAaA,WADH;AAEVE,qBAAY,MAAKC,GAAL,CAAS,aAAT;AAFF,OAAZ;AAIA,aAAO,MAAM,MAAKG,OAAL,EAAb;AAPkB;AAQnB;AATiC,CAApC",
     "file": "../../../src/controller/admin/evaluations.js",
     "sourcesContent": [
-        "const Base = require('../base.js');\n\nmodule.exports = class extends Base {\n  async indexAction() {\n    let evaluation = this.model('evaluation');\n    const evaluations = await evaluation.where({analysis_id:this.get(\"analysis_id\")}).select();\n    this.assign({ evaluations: evaluations,analysis_id:this.get(\"analysis_id\")});\n    return await this.display();\n  }\n};\n"
+        "const Base = require('../base.js');\n\nmodule.exports = class extends Base {\n  async indexAction() {\n    let evaluation = this.model('evaluation');\n    const evaluations = await evaluation.where({analysis_id:this.get(\"analysis_id\")}).select();\n    this.assign({\n      evaluations: evaluations,\n      analysis_id:this.get(\"analysis_id\")\n    });\n    return await this.display();\n  }\n};\n"
     ]
 }

@@ -353,11 +353,20 @@ module.exports = class extends Base {
     var _this13 = this;
 
     return _asyncToGenerator(function* () {
+      const user_id = _this13.get('user_id');
       const isPost = _this13.isMethod('POST');
       const model = _this13.model('user_answer');
       if (isPost) {
+        const task_flows_id = yield _this13.model('task_flows').add({
+          user_id: user_id,
+          status: 1
+        });
         const data = _this13.post();
-        const rows = yield model.addMany([data]);
+        var rs = JSON.parse(data.data);
+        rs.forEach(function (item, index) {
+          rs[index].task_flows_id = task_flows_id;
+        });
+        const rows = yield model.addMany(rs);
         return _this13.success({ affectedRows: rows });
       }
     })();
@@ -412,8 +421,50 @@ module.exports = class extends Base {
   }
 
   //短信接口
-  sms(code) {
-    return _asyncToGenerator(function* () {})();
+  smsCodeAction() {
+    var _this15 = this;
+
+    return _asyncToGenerator(function* () {
+      let phone = _this15.get("phone"); //登录时获取的 code
+
+      var options = {
+        uri: 'http://180.76.110.67:5880/template/add',
+        method: 'POST',
+        json: {
+          "username": "h2-bjsf", //用户账号
+          "password": "h2-bjsf", //密码
+          "content": "您好,本次您的验证码${2}" //模板内容
+        }
+      };
+      request(options, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          //输出返回的内容
+          console.log("======" + JSON.stringify(body));
+          console.log("======" + body);
+        }
+      });
+      yield _this15.session(phone, 'smsCode');
+    })();
+  }
+  smsLoginAction() {
+    var _this16 = this;
+
+    return _asyncToGenerator(function* () {
+      let phoneNum = _this16.post("phone");
+      let code = _this16.post("code");
+      if (_this16.session(phoneNum) == code) {
+        const model = _this16.model('user');
+        const user = yield model.where({ phone: phoneNum }).find();
+        if (JSON.stringify(user) != "{}") {
+          //存在
+          return _this16.success(user);
+        } else {
+          //不存在user
+          const rows = yield model.add({ phone: phoneNum });
+          return _this16.success({ affectedRows: rows });
+        }
+      }
+    })();
   }
 
 };
