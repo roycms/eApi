@@ -369,7 +369,7 @@ module.exports = class extends Base {
           rs[index].task_flows_id = task_flows_id;
         });
         const rows = yield model.addMany(rs);
-        return _this13.success({ affectedRows: rows });
+        return _this13.success({ task_flows_id: task_flows_id });
       }
     })();
   }

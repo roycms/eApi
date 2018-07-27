@@ -322,7 +322,7 @@ module.exports = class extends Base {
         rs[index].task_flows_id = task_flows_id;
       });
       const rows = await model.addMany(rs);
-      return this.success({ affectedRows: rows });
+      return this.success({ task_flows_id: task_flows_id });
     }
   }
 
