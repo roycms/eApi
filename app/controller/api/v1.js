@@ -371,23 +371,21 @@ module.exports = class extends Base {
           user_id: user_id,
           status: 1
         });
+        var analysis_id;
         const data = _this13.post();
         var rs = JSON.parse(data.data);
         for (let i = 0, len = rs.length; i < len; i++) {
           rs[i].task_flows_id = task_flows_id;
           var question = yield _this13.model('question').where({ id: rs[i].question_id }).find();
           rs[i].evaluation_id = question.evaluation_id;
+          rs[i].max_scores = question.max_scores;
           var evaluation = yield _this13.model('evaluation').where({ id: rs[i].evaluation_id }).find();
           rs[i].analysis_id = evaluation.analysis_id;
+          analysis_id = evaluation.analysis_id;
         }
-        // rs.forEach(function(item,index){
-        //   rs[index].task_flows_id = task_flows_id;
-        //   var question = await this.model('question').where({id:rs[index].question_id}).find();
-        //   var evaluation = await this.model('evaluation').where({id:rs[index].evaluation_id}).find();
-        //   rs[index].evaluation_id = question.evaluation_id;
-        //   rs[index].analysis_id = evaluation.analysis_id;
-        // });
         const rows = yield model.addMany(rs);
+        //统计是什么类型的
+
         return _this13.success({ task_flows_id: task_flows_id });
       }
     })();
@@ -485,6 +483,57 @@ module.exports = class extends Base {
           return _this16.success({ affectedRows: rows });
         }
       }
+    })();
+  }
+
+  rtsAction() {
+    var _this17 = this;
+
+    return _asyncToGenerator(function* () {
+
+      var analysis_id = _this17.get("analysis_id");
+      var task_flows_id = _this17.get("task_flows_id");
+
+      // var evaluationIds = await this.model('evaluation').where({analysis_id:analysis_id}).getField('id');
+      var evaluations = yield _this17.model('evaluation').where({ analysis_id: analysis_id }).select();
+      var rts = [];
+      var sumScores = [];
+      // var sumMaxScores = [];
+      for (let i = 0, len = evaluations.length; i < len; i++) {
+        var scores = yield _this17.model('user_answer').where({
+          task_flows_id: task_flows_id,
+          analysis_id: analysis_id,
+          evaluation_id: evaluations[i].id
+        }).sum("scores");
+        sumScores.push(scores);
+        var max_scores = yield _this17.model('user_answer').where({
+          task_flows_id: task_flows_id,
+          analysis_id: analysis_id,
+          evaluation_id: evaluations[i].id
+        }).sum("max_scores");
+        // sumMaxScores.push(max_scores);
+        var rt = {
+          evaluationId: evaluations[i].id,
+          evaluationTitle: evaluations[i].title,
+          scores: scores,
+          max_scores: max_scores
+        };
+        rts.push(rt);
+      }
+      //取最大值
+      var rt;
+      var max = rts[0].scores;
+      var temp;
+      for (var i = 0; i < rts.length; i++) {
+        if (max < rts[i].scores) {
+          var temp;
+          temp = max;
+          max = rts[i].scores;
+          rt = rts[i];
+        }
+      }
+      console.log("|||||||" + JSON.stringify(rt));
+      return _this17.json(rt);
     })();
   }
 
