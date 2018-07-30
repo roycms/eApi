@@ -229,7 +229,7 @@ module.exports = class extends Base {
       return this.success({ affectedRows: rows });
     }
     if (isGet) {
-      const data = await model.select();
+      const data = await model.order('orderby ASC').select();
       return this.json(data);
     }
   }
@@ -252,11 +252,11 @@ module.exports = class extends Base {
       return this.success({ affectedRows: rows });
     }
     if (isDelete) {
-      const rows = await model.where({ id: id }).delete()
+      const rows = await model.where({ id: id }).delete();
       return this.success({ affectedRows: rows });
     }
     if (isGet) {
-      const data = await model.select()
+      const data = await model.select();
       return this.json(data);
     }
   }
@@ -434,7 +434,7 @@ module.exports = class extends Base {
 
         // var evaluationIds = await this.model('evaluation').where({analysis_id:analysis_id}).getField('id');
         var evaluations = await this.model('evaluation').where({analysis_id:analysis_id}).select();
-        var rts = [];
+        var r = [];
         // var sumScores = [];
         var maxScore = 0;
         var maxItm = evaluations[0];
@@ -452,48 +452,21 @@ module.exports = class extends Base {
               }).sum("max_scores");
 
             if (maxScore < scores){
-              maxScore = scores;
               maxItm = evaluations[i];
+              maxScore = scores;
               maxItm.scores = maxScore; //得分
               maxItm.max_scores = max_scores; //满分
             }
-            // maxItm.rts = rts;
 
-            rts.push(evaluations[i]);
-
-
-            // sumScores.push(scores);
-            // var max_scores = await this.model('user_answer').where({
-            //     task_flows_id:task_flows_id,
-            //     analysis_id:analysis_id,
-            //     evaluation_id:evaluations[i].id
-            //   }).sum("max_scores");
-              // sumMaxScores.push(max_scores);
-              // var rt = {
-              //   evaluationId:evaluations[i].id,
-              //   evaluationTitle:evaluations[i].title,
-              //   evaluation_content:evaluations[i].content,
-              //   scores:scores,
-              //   max_scores:max_scores
-              // }
-              // rts.push(rt);
+            evaluations[i].scores = maxScore; //得分
+            evaluations[i].max_scores = max_scores; //满分
+            r.push(evaluations[i]);
           }
-          // maxItm.rts[] = rts;
+
+          maxItm.rts = JSON.stringify(r);
+          maxItm.rts = JSON.parse(maxItm.rts);
+          console.log("++++" + JSON.stringify(maxItm));
           return this.json(maxItm);
-          //取最大值
-          // var rt ;
-          // var max=rts[0].scores;
-          // var temp;
-          // for(var i=0;i<rts.length;i++){
-          //   if(max < rts[i].scores){
-          //     var temp;
-          //     temp = max;
-          //     max = rts[i].scores;
-          //     rt = rts[i];
-          //   }
-          // }
-          // console.log("|||||||"+JSON.stringify(rt));
-          // return this.json(rt);
     }
 
 };
