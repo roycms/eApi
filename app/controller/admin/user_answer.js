@@ -8,19 +8,35 @@ module.exports = class extends Base {
 
     return _asyncToGenerator(function* () {
       if (_this.get("user_id") != null) {
-        const task_flows = yield _this.model('task_flows').order('id DESC').where({
+
+        var whereStr = {
           user_id: _this.get("user_id"),
           status: 1
-        }).find();
+        };
+        if (_this.get("task_flows_id") != null) {
+          whereStr.id = _this.get("task_flows_id");
+        }
+
+        const task_flows = yield _this.model('task_flows').order('id DESC').where(whereStr).find();
         const user_answers = task_flows.user_answer;
         console.log('============:', JSON.stringify(task_flows));
         console.log('++++++++++++:', JSON.stringify(user_answers));
+        const task_flows_data = yield _this.model('task_flows').order('id DESC').where({
+          user_id: _this.get("user_id"),
+          status: 1
+        }).select();
         _this.assign({
-          user_answers: user_answers
+          user_answers: user_answers,
+          task_flows_data: task_flows_data,
+          user_id: _this.get("user_id"),
+          task_flows_id: _this.get("task_flows_id")
         });
       } else {
         _this.assign({
-          user_answers: null
+          user_answers: null,
+          task_flows_data: null,
+          user_id: _this.get("user_id"),
+          task_flows_id: _this.get("task_flows_id")
         });
       }
 

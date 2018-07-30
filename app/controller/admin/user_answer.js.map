@@ -10,12 +10,14 @@
         "exports",
         "indexAction",
         "get",
+        "whereStr",
+        "user_id",
+        "status",
+        "id",
         "task_flows",
         "model",
         "order",
         "where",
-        "user_id",
-        "status",
         "find",
         "user_answers",
         "user_answer",
@@ -23,12 +25,15 @@
         "log",
         "JSON",
         "stringify",
+        "task_flows_data",
+        "select",
         "assign",
+        "task_flows_id",
         "display"
     ],
-    "mappings": ";;AAAA,MAAMA,OAAOC,QAAQ,YAAR,CAAb;;AAEAC,OAAOC,OAAP,GAAiB,cAAcH,IAAd,CAAmB;AAC5BI,aAAN,GAAoB;AAAA;;AAAA;AAClB,UAAI,MAAKC,GAAL,CAAS,SAAT,KAAuB,IAA3B,EAAgC;AAC9B,cAAMC,aAAa,MAAM,MAAKC,KAAL,CAAW,YAAX,EAAyBC,KAAzB,CAA+B,SAA/B,EAA0CC,KAA1C,CAAgD;AACvEC,mBAAS,MAAKL,GAAL,CAAS,SAAT,CAD8D;AAEvEM,kBAAO;AAFgE,SAAhD,EAGtBC,IAHsB,EAAzB;AAIA,cAAMC,eAAeP,WAAWQ,WAAhC;AACAC,gBAAQC,GAAR,CAAY,eAAZ,EAA6BC,KAAKC,SAAL,CAAeZ,UAAf,CAA7B;AACAS,gBAAQC,GAAR,CAAY,eAAZ,EAA6BC,KAAKC,SAAL,CAAeL,YAAf,CAA7B;AACA,cAAKM,MAAL,CAAY;AACVN,wBAAcA;AADJ,SAAZ;AAGD,OAXD,MAWM;AACJ,cAAKM,MAAL,CAAY;AACVN,wBAAc;AADJ,SAAZ;AAGD;;AAED,aAAO,MAAM,MAAKO,OAAL,EAAb;AAlBkB;AAmBnB;AApBiC,CAApC",
+    "mappings": ";;AAAA,MAAMA,OAAOC,QAAQ,YAAR,CAAb;;AAEAC,OAAOC,OAAP,GAAiB,cAAcH,IAAd,CAAmB;AAC5BI,aAAN,GAAoB;AAAA;;AAAA;AAClB,UAAI,MAAKC,GAAL,CAAS,SAAT,KAAuB,IAA3B,EAAgC;;AAE9B,YAAIC,WAAW;AACbC,mBAAS,MAAKF,GAAL,CAAS,SAAT,CADI;AAEbG,kBAAO;AAFM,SAAf;AAIA,YAAI,MAAKH,GAAL,CAAS,eAAT,KAA6B,IAAjC,EAAuC;AACrCC,mBAASG,EAAT,GAAc,MAAKJ,GAAL,CAAS,eAAT,CAAd;AACD;;AAED,cAAMK,aAAa,MAAM,MAAKC,KAAL,CAAW,YAAX,EAAyBC,KAAzB,CAA+B,SAA/B,EAA0CC,KAA1C,CAAgDP,QAAhD,EAA0DQ,IAA1D,EAAzB;AACA,cAAMC,eAAeL,WAAWM,WAAhC;AACAC,gBAAQC,GAAR,CAAY,eAAZ,EAA6BC,KAAKC,SAAL,CAAeV,UAAf,CAA7B;AACAO,gBAAQC,GAAR,CAAY,eAAZ,EAA6BC,KAAKC,SAAL,CAAeL,YAAf,CAA7B;AACA,cAAMM,kBAAkB,MAAM,MAAKV,KAAL,CAAW,YAAX,EAAyBC,KAAzB,CAA+B,SAA/B,EAA0CC,KAA1C,CAAgD;AAC5EN,mBAAS,MAAKF,GAAL,CAAS,SAAT,CADmE;AAE5EG,kBAAO;AAFqE,SAAhD,EAG3Bc,MAH2B,EAA9B;AAIA,cAAKC,MAAL,CAAY;AACVR,wBAAcA,YADJ;AAEVM,2BAAgBA,eAFN;AAGVd,mBAAQ,MAAKF,GAAL,CAAS,SAAT,CAHE;AAIVmB,yBAAc,MAAKnB,GAAL,CAAS,eAAT;AAJJ,SAAZ;AAMD,OAxBD,MAwBM;AACJ,cAAKkB,MAAL,CAAY;AACVR,wBAAc,IADJ;AAEVM,2BAAgB,IAFN;AAGVd,mBAAQ,MAAKF,GAAL,CAAS,SAAT,CAHE;AAIVmB,yBAAc,MAAKnB,GAAL,CAAS,eAAT;AAJJ,SAAZ;AAMD;;AAED,aAAO,MAAM,MAAKoB,OAAL,EAAb;AAlCkB;AAmCnB;AApCiC,CAApC",
     "file": "../../../src/controller/admin/user_answer.js",
     "sourcesContent": [
-        "const Base = require('../base.js');\n\nmodule.exports = class extends Base {\n  async indexAction() {\n    if (this.get(\"user_id\") != null){\n      const task_flows = await this.model('task_flows').order('id DESC').where({\n        user_id: this.get(\"user_id\"),\n        status:1\n      }).find();\n      const user_answers = task_flows.user_answer;\n      console.log('============:', JSON.stringify(task_flows) );\n      console.log('++++++++++++:', JSON.stringify(user_answers) );\n      this.assign({\n        user_answers: user_answers\n      });\n    }else {\n      this.assign({\n        user_answers: null\n      });\n    }\n\n    return await this.display();\n  }\n};\n"
+        "const Base = require('../base.js');\n\nmodule.exports = class extends Base {\n  async indexAction() {\n    if (this.get(\"user_id\") != null){\n\n      var whereStr = {\n        user_id: this.get(\"user_id\"),\n        status:1\n      };\n      if (this.get(\"task_flows_id\") != null) {\n        whereStr.id = this.get(\"task_flows_id\");\n      }\n\n      const task_flows = await this.model('task_flows').order('id DESC').where(whereStr).find();\n      const user_answers = task_flows.user_answer;\n      console.log('============:', JSON.stringify(task_flows) );\n      console.log('++++++++++++:', JSON.stringify(user_answers) );\n      const task_flows_data = await this.model('task_flows').order('id DESC').where({\n        user_id: this.get(\"user_id\"),\n        status:1\n      }).select();\n      this.assign({\n        user_answers: user_answers,\n        task_flows_data:task_flows_data,\n        user_id:this.get(\"user_id\"),\n        task_flows_id:this.get(\"task_flows_id\")\n      });\n    }else {\n      this.assign({\n        user_answers: null,\n        task_flows_data:null,\n        user_id:this.get(\"user_id\"),\n        task_flows_id:this.get(\"task_flows_id\")\n      });\n    }\n\n    return await this.display();\n  }\n};\n"
     ]
 }

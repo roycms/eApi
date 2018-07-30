@@ -12,13 +12,28 @@
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 评测结果管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l">
+
+			<% if (task_flows_data){ %>
+			<% task_flows_data.forEach(function(vo){ %>
+				<a href="?task_flows_id=<%= vo.id %>&user_id=<%= user_id %>" class="btn btn-primary radius"><%= vo.create_time %>测	</a>
+			<% }); %>
+			<% } %>
+
+  </span>
+	<span class="r">共有数据：<strong><%= user_answers.length %></strong> 条</span>
+</div>
+<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l">
+<a href="https://e.txk12.com/api/v1/rts?analysis_id=1&task_flows_id=<%= task_flows_id %>" target="_blank" class="btn btn-primary radius">查看报告</a>
+</span>
+</div>
 
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
 			<tr class="text-c">
 
-				<th width="80">ID</th>
+				<th width="80">序号</th>
 				<th width="">测试题标题</th>
 				<th width="">回答</th>
         <th width="">时间</th>
@@ -29,7 +44,7 @@
       <% user_answers.forEach(function(vo){ %>
 			<tr class="text-c">
 
-				<td><%= vo.id %></td>
+				<td><%= vo.question.orderby %></td>
 				<td><u style="cursor:pointer" class="text-primary" ><%= vo.question.title %></u></td>
         <td><u style="cursor:pointer" class="text-primary" ><%= vo.options.content %></u></td>
 				<td><%= vo.create_time %></td>
@@ -51,7 +66,7 @@
 <script type="text/javascript">
 $(function(){
 	$('.table-sort').dataTable({
-		"aaSorting": [[ 1, "desc" ]],//默认第几个排序
+		// "aaSorting": [[ 1, "desc" ]],//默认第几个排序
 		"bStateSave": true,//状态保存
 		"aoColumnDefs": [
 		  //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
