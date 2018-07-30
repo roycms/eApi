@@ -7,8 +7,8 @@ module.exports = class extends Base {
     var _this = this;
 
     return _asyncToGenerator(function* () {
-      let question = _this.model('question');
-      const questions = yield question.select();
+      // let question = this.model('question');
+      const questions = yield _this.model('question').order('orderby DESC').select();
       _this.assign({ questions: questions });
       return yield _this.display();
     })();

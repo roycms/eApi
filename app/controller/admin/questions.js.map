@@ -9,16 +9,16 @@
         "module",
         "exports",
         "indexAction",
-        "question",
-        "model",
         "questions",
+        "model",
+        "order",
         "select",
         "assign",
         "display"
     ],
-    "mappings": ";;AAAA,MAAMA,OAAOC,QAAQ,YAAR,CAAb;;AAEAC,OAAOC,OAAP,GAAiB,cAAcH,IAAd,CAAmB;AAC5BI,aAAN,GAAoB;AAAA;;AAAA;AAClB,UAAIC,WAAW,MAAKC,KAAL,CAAW,UAAX,CAAf;AACA,YAAMC,YAAY,MAAMF,SAASG,MAAT,EAAxB;AACA,YAAKC,MAAL,CAAY,EAAEF,WAAWA,SAAb,EAAZ;AACA,aAAO,MAAM,MAAKG,OAAL,EAAb;AAJkB;AAKnB;AANiC,CAApC",
+    "mappings": ";;AAAA,MAAMA,OAAOC,QAAQ,YAAR,CAAb;;AAEAC,OAAOC,OAAP,GAAiB,cAAcH,IAAd,CAAmB;AAC5BI,aAAN,GAAoB;AAAA;;AAAA;AAClB;AACA,YAAMC,YAAY,MAAM,MAAKC,KAAL,CAAW,UAAX,EAAuBC,KAAvB,CAA6B,cAA7B,EAA6CC,MAA7C,EAAxB;AACA,YAAKC,MAAL,CAAY,EAAEJ,WAAWA,SAAb,EAAZ;AACA,aAAO,MAAM,MAAKK,OAAL,EAAb;AAJkB;AAKnB;AANiC,CAApC",
     "file": "../../../src/controller/admin/questions.js",
     "sourcesContent": [
-        "const Base = require('../base.js');\n\nmodule.exports = class extends Base {\n  async indexAction() {\n    let question = this.model('question');\n    const questions = await question.select();\n    this.assign({ questions: questions});\n    return await this.display();\n  }\n};\n"
+        "const Base = require('../base.js');\n\nmodule.exports = class extends Base {\n  async indexAction() {\n    // let question = this.model('question');\n    const questions = await this.model('question').order('orderby DESC').select();\n    this.assign({ questions: questions});\n    return await this.display();\n  }\n};\n"
     ]
 }

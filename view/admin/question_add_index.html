@@ -36,6 +36,7 @@
       </label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<input type="text" class="input-text" value="<% if (question) { %><%= question.title %><% } %>" placeholder="" id="title" name="title">
+				<input id="orderby" name="orderby" type="text" class="input-text" style="width:80px" placeholder="编号排序" value="<% if (question) { %><%= question.orderby %><% } %>">
 			</div>
 		</div>
     <div class="row cl">

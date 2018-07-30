@@ -40,6 +40,7 @@ module.exports = class extends Base {
       console.log('============:', JSON.stringify(data));
       let questionData = {
         title: data.title,
+        orderby: data.orderby,
         type: data.type,
         max_scores: data.max_scores
       };
