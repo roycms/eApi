@@ -7,7 +7,10 @@ module.exports = class extends Base {
          const evaluation = await model.where({id:this.get("id")}).find();
          let questionModel = this.model('question');
          const questions = await questionModel.where({evaluation_id:this.get("id")}).select();
-         const questions_not = await questionModel.where({evaluation_id:0}).select();
+         const questions_not = await questionModel.where({
+           evaluation_id:0,
+           analysis_id:this.get("analysis_id")
+         }).select();
 
          console.log('============:', JSON.stringify(evaluation) );
          this.assign({

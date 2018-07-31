@@ -12,12 +12,11 @@
         "options",
         "type",
         "HAS_MANY",
-        "order",
-        "answer"
+        "order"
     ],
-    "mappings": "AAAAA,OAAOC,OAAP,GAAiB,cAAcC,MAAMC,KAApB,CAA0B;AACzC,MAAIC,QAAJ,GAAe;AACb,WAAO;AACLC,eAAS;AACPC,cAAMJ,MAAMC,KAAN,CAAYI,QADX;AAEPC,eAAM;AAFC,OADJ;AAKLC,cAAQ;AACNH,cAAMJ,MAAMC,KAAN,CAAYI;AADZ;AALH,KAAP;AASD;AAXwC,CAA3C",
+    "mappings": "AAAAA,OAAOC,OAAP,GAAiB,cAAcC,MAAMC,KAApB,CAA0B;AACzC,MAAIC,QAAJ,GAAe;AACb,WAAO;AACLC,eAAS;AACPC,cAAMJ,MAAMC,KAAN,CAAYI,QADX;AAEPC,eAAM;AAFC;AADJ,KAAP;AAMD;AARwC,CAA3C",
     "file": "../../src/model/question.js",
     "sourcesContent": [
-        "module.exports = class extends think.Model {\n  get relation() {\n    return {\n      options: {\n        type: think.Model.HAS_MANY,\n        order:\"orderby DESC\"\n      },\n      answer: {\n        type: think.Model.HAS_MANY\n      }\n    }\n  }\n};\n"
+        "module.exports = class extends think.Model {\n  get relation() {\n    return {\n      options: {\n        type: think.Model.HAS_MANY,\n        order:\"orderby DESC\"\n      }\n    }\n  }\n};\n"
     ]
 }

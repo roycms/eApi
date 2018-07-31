@@ -4,9 +4,6 @@ module.exports = class extends think.Model {
       options: {
         type: think.Model.HAS_MANY,
         order:"orderby DESC"
-      },
-      answer: {
-        type: think.Model.HAS_MANY
       }
     }
   }
