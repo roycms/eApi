@@ -71,7 +71,9 @@
 			<dt><i class="Hui-iconfont">&#xe622;</i> 测试题<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
-					<li><a data-href="/admin/questions" data-title="测试题" href="javascript:;">测试题</a></li>
+					<% analysis.forEach(function(vo){ %>
+						<li><a data-href="/admin/questions?analysis_id=<%= vo.id %>" data-title="<%= vo.title %>" href="javascript:;"><%= vo.title %></a></li>
+					<% }); %>
 			</ul>
 		</dd>
 	</dl>

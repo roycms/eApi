@@ -7,14 +7,11 @@ module.exports = class extends Base {
     var _this = this;
 
     return _asyncToGenerator(function* () {
-      // let question = this.model('question');
-      const questions = yield _this.model('question').where({ analysis_id: _this.get("analysis_id") }).order('orderby DESC').select();
       _this.assign({
-        questions: questions,
         analysis_id: _this.get("analysis_id")
       });
       return yield _this.display();
     })();
   }
 };
-//# sourceMappingURL=questions.js.map
+//# sourceMappingURL=question_adds.js.map

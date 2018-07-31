@@ -1,0 +1,104 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<% include _header.html %>
+<title></title>
+
+</head>
+<body>
+<article class="page-container">
+
+	<form class="form form-horizontal" id="form" enctype='multipart/form-data' >
+    <input type="hidden" id="analysis_id" name="analysis_id" value="<%= analysis_id %>" >
+		<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>问题集合</label>
+					<div class="formControls col-xs-8 col-sm-9">
+            <span style="color:red;font-size:12px;">例:0|问题1|1|99 注:“|”隔开分别是，评测结果ID|问题标题|排序|最高分。每条一行。</span>
+						<textarea id="questionsStrs" name="questionsStrs" cols="" rows="" class="textarea valid" placeholder="" datatype="*10-100" dragonfly="true" nullmsg="不能为空！" onkeyup="$.Huitextarealength(this,20000)"></textarea>
+						<p class="textarea-numberbar"><em class="textarea-length">0</em>/20000</p>
+					</div>
+		</div>
+    <div class="row cl">
+					<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>统一选项</label>
+					<div class="formControls col-xs-8 col-sm-9">
+            <span style="color:red;font-size:12px;">例:选项1|1|0 注:“|”隔开分别是，选项标题|分值|排序。每条一行。</span>
+						<textarea id="optionsStrs" name="optionsStrs" cols="" rows="" class="textarea valid" placeholder="" datatype="*10-100" dragonfly="true" nullmsg="不能为空！" onkeyup="$.Huitextarealength(this,20000)"></textarea>
+						<p class="textarea-numberbar"><em class="textarea-length">0</em>/20000</p>
+					</div>
+		</div>
+
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+				<button class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 确认提交(慎重操作)</button>
+				<button class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
+			</div>
+		</div>
+	</form>
+
+</article>
+
+<% include _footer.html %>
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="/static/lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="/static/lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="/static/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="/static/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="/static/lib/webuploader/0.1.5/webuploader.min.js"></script>
+<script type="text/javascript" src="/static/lib/ueditor/1.4.3/ueditor.config.js"></script>
+<script type="text/javascript" src="/static/lib/ueditor/1.4.3/ueditor.all.min.js"> </script>
+<script type="text/javascript" src="/static/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript">
+
+$(function(){
+
+	//表单验证
+	$("#form").validate({
+		rules:{
+			questionsStrs:{
+				required:true,
+			},
+			optionsStrs:{
+				required:true,
+			}
+		},
+		onkeyup:false,
+		focusCleanup:true,
+		success:"valid",
+		submitHandler:function(form){
+
+      var type = "post"
+			var url = "/api/v1/singKAddIt"
+
+			$(form).ajaxSubmit({
+				type: type,
+				url: url,
+				dataType: "json",
+				success: function (data) {
+          if (data.errno == 0){
+            layer.msg('添加成功!',{icon:1,time:1000});
+						var index = parent.layer.getFrameIndex(window.name);
+						parent.location.replace(parent.location.href)
+						parent.layer.close(index);
+          }
+          else {
+            layer.msg(data.errmsg,{icon:1,time:1000});
+          }
+				},
+				error: function () {
+					layer.msg('提交失败!',{icon:1,time:1000});
+				}
+			});
+		}
+	});
+});
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

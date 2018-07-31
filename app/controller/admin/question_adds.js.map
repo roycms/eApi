@@ -1,0 +1,22 @@
+{
+    "version": 3,
+    "sources": [
+        "../../../src/controller/admin/question_adds.js"
+    ],
+    "names": [
+        "Base",
+        "require",
+        "module",
+        "exports",
+        "indexAction",
+        "assign",
+        "analysis_id",
+        "get",
+        "display"
+    ],
+    "mappings": ";;AAAA,MAAMA,OAAOC,QAAQ,YAAR,CAAb;;AAEAC,OAAOC,OAAP,GAAiB,cAAcH,IAAd,CAAmB;AAC5BI,aAAN,GAAoB;AAAA;;AAAA;AAClB,YAAKC,MAAL,CAAY;AACVC,qBAAY,MAAKC,GAAL,CAAS,aAAT;AADF,OAAZ;AAGA,aAAO,MAAM,MAAKC,OAAL,EAAb;AAJkB;AAKpB;AANkC,CAApC",
+    "file": "../../../src/controller/admin/question_adds.js",
+    "sourcesContent": [
+        "const Base = require('../base.js');\n\nmodule.exports = class extends Base {\n  async indexAction() {\n    this.assign({\n      analysis_id:this.get(\"analysis_id\")\n    });\n    return await this.display();\n }\n}\n"
+    ]
+}

@@ -1,6 +1,7 @@
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 const Base = require('../base.js');
+const Common = require('./common.js');
 //网络请求模块
 var request = require('request');
 //阿里云
@@ -485,19 +486,13 @@ module.exports = class extends Base {
       }
     })();
   }
-
-  rtsAction() {
+  rts(analysis_id, task_flows_id) {
     var _this17 = this;
 
     return _asyncToGenerator(function* () {
 
-      var analysis_id = _this17.get("analysis_id");
-      var task_flows_id = _this17.get("task_flows_id");
-
-      // var evaluationIds = await this.model('evaluation').where({analysis_id:analysis_id}).getField('id');
       var evaluations = yield _this17.model('evaluation').where({ analysis_id: analysis_id }).select();
       var r = [];
-      // var sumScores = [];
       var maxScore = 0;
       var maxItm = evaluations[0];
       maxItm.scores = 0;
@@ -528,9 +523,78 @@ module.exports = class extends Base {
       maxItm.rts = JSON.stringify(r);
       maxItm.rts = JSON.parse(maxItm.rts);
       console.log("++++" + JSON.stringify(maxItm));
-      return _this17.json(maxItm);
+      return maxItm;
+    })();
+  }
+  // 返回测试结果
+  rtsAction() {
+    var _this18 = this;
+
+    return _asyncToGenerator(function* () {
+      var analysis_id = _this18.get("analysis_id");
+      var task_flows_id = _this18.get("task_flows_id");
+      var rt = yield _this18.rts(analysis_id, task_flows_id);
+      return _this18.json(rt);
     })();
   }
 
+  //批量添加
+  // questionsStrs   35|问题1|1|99  // evaluation_id  标题 排序  最大分
+  // optionsStrs   选项一|1|0   //标题 分数  排序
+  adds(analysis_id, questionsStrs, optionsStrs) {
+    var _this19 = this;
+
+    return _asyncToGenerator(function* () {
+
+      var qArray = questionsStrs.split('\n');
+      var oArray = optionsStrs.split('\n');
+
+      for (let i = 0, len = qArray.length; i < len; i++) {
+        var qObjArray = qArray[i].split('|');
+        var question = {
+          analysis_id: analysis_id,
+          evaluation_id: qObjArray[0],
+          title: qObjArray[1],
+          orderby: qObjArray[2],
+          max_scores: qObjArray[3]
+        };
+        yield _this19.model('question').add(question);
+      }
+
+      var questions = yield _this19.model('question').where({ analysis_id: analysis_id }).select();
+      var ooobjs = [];
+      for (let q = 0, len = questions.length; q < len; q++) {
+        for (let i = 0, len = oArray.length; i < len; i++) {
+          var oObjArray = oArray[i].split('|');
+          var obj = {
+            question_id: questions[q].id,
+            content: oObjArray[0],
+            scores: oObjArray[1],
+            orderby: oObjArray[2]
+          };
+          ooobjs.push(obj);
+        }
+      }
+      console.log("++++" + JSON.stringify(ooobjs));
+      return yield _this19.model('options').addMany(ooobjs);
+    })();
+  }
+
+  singKAddItAction() {
+    var _this20 = this;
+
+    return _asyncToGenerator(function* () {
+      //"0|问题1|1|99\n0|问题2|1|99\n0|问题3|1|99","选项1|1|0\n选项2|1|0\n选项3|1|0"
+      var analysis_id = _this20.post("analysis_id");
+      var questionsStrs = _this20.post("questionsStrs");
+      var optionsStrs = _this20.post("optionsStrs");
+
+      console.log("++++" + analysis_id);
+      console.log("++++" + questionsStrs);
+      console.log("++++" + optionsStrs);
+
+      return _this20.json((yield _this20.adds(analysis_id, questionsStrs, optionsStrs)));
+    })();
+  }
 };
 //# sourceMappingURL=v1.js.map

@@ -9,12 +9,14 @@ module.exports = class extends Base {
 
       this.assign({
         question: question,
-        options:options
+        options:options,
+        analysis_id:this.get("analysis_id")
       });
     }else {
       this.assign({
         question: null,
-        options:null
+        options:null,
+        analysis_id:this.get("analysis_id")
       });
     }
 
@@ -30,6 +32,7 @@ module.exports = class extends Base {
     // JSON.parse(data)
     console.log('============:', JSON.stringify(data) );
     let questionData = {
+      analysis_id:data.analysis_id,
       title:data.title,
       orderby:data.orderby,
       type:data.type,

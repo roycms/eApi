@@ -21,7 +21,9 @@
 			<% } %>
 
   </span>
+	<% if (user_answers){ %>
 	<span class="r">共有数据：<strong><%= user_answers.length %></strong> 条</span>
+	<% }%>
 </div>
 <div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l">
 <a href="https://e.txk12.com/api/v1/rts?analysis_id=1&task_flows_id=<%= task_flows_id %>" target="_blank" class="btn btn-primary radius">查看报告</a>

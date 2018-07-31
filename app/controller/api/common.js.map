@@ -1,0 +1,18 @@
+{
+    "version": 3,
+    "sources": [
+        "../../../src/controller/api/common.js"
+    ],
+    "names": [
+        "module",
+        "exports",
+        "think",
+        "Controller",
+        "it"
+    ],
+    "mappings": ";AACAA,OAAOC,OAAP,GAAiB,cAAcC,MAAMC,UAApB,CAA8B;AAC7CC,OAAK;AACH,WAAO,IAAP;AACD;AAH4C,CAA/C",
+    "file": "../../../src/controller/api/common.js",
+    "sourcesContent": [
+        "\nmodule.exports = class extends think.Controller{\n  it() {\n    return 1000;\n  }\n}\n"
+    ]
+}
