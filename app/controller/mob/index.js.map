@@ -1,0 +1,24 @@
+{
+    "version": 3,
+    "sources": [
+        "../../../src/controller/mob/index.js"
+    ],
+    "names": [
+        "Base",
+        "require",
+        "module",
+        "exports",
+        "indexAction",
+        "questions",
+        "model",
+        "order",
+        "select",
+        "assign",
+        "display"
+    ],
+    "mappings": ";;AAAA,MAAMA,OAAOC,QAAQ,YAAR,CAAb;;AAEAC,OAAOC,OAAP,GAAiB,cAAcH,IAAd,CAAmB;AAC5BI,aAAN,GAAoB;AAAA;;AAAA;AAClB,YAAMC,YAAY,MAAM,MAAKC,KAAL,CAAW,UAAX,EAAuBC,KAAvB,CAA6B,cAA7B,EAA6CC,MAA7C,EAAxB;AACA,YAAKC,MAAL,CAAY;AACVJ,mBAAWA;AADD,OAAZ;AAGA,aAAO,MAAM,MAAKK,OAAL,EAAb;AALkB;AAMnB;AAPiC,CAApC",
+    "file": "../../../src/controller/mob/index.js",
+    "sourcesContent": [
+        "const Base = require('../base.js');\n\nmodule.exports = class extends Base {\n  async indexAction() {\n    const questions = await this.model('question').order('orderby DESC').select();\n    this.assign({\n      questions: questions\n    });\n    return await this.display();\n  }\n};\n"
+    ]
+}

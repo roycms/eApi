@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>我的生活</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+     <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+     <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm.min.js' charset='utf-8'></script>
+     <script type='text/javascript' src='//g.alicdn.com/msui/sm/0.6.2/js/sm-extend.min.js' charset='utf-8'></script>
+     <script type='text/javascript' src='https://cdnjs.com/libraries/handlebars.js' charset='utf-8'></script>
+
+
+  </head>
+  <body>
+    <div class="page-group">
+        <div class="page">
+          <div id="list"></div>
+          <script type="text/template" id="myTemplate">
+             {{#each data}}
+             {{ title }} =
+             {{/each}}
+          <h2></h2>
+          <ul>
+            <li>
+              <div class="item-subtitle">New messages from John Doe</div>
+            </li>
+            <li>
+              <div class="item-subtitle">New messages from John Doe</div>
+            </li>
+          </ul>
+        </script>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+      function getList(){
+          $.ajax({
+              type:'get',
+              url:'/api/v1/question',
+              data:null,
+              success:function(data){
+                alert(JSON.stringify(data));
+                  //用zepto获取模板
+                  var tpl  =  $("#myTemplate").html();
+                  //预编译模板
+                  var template = Handlebars.compile(tpl);
+                  //匹配json内容
+                  var html = template(data);
+                  //插入模板,到ul中
+                  $('#list').html(html);
+              }
+          })
+      }
+
+      //入口函数
+      $(function(){
+          //获取到查询字符串的id
+          // var categoryId = Number(GetQueryString("categoryid"));  //getQueryString()是获取上一步传递过来的查询字符串的方法
+          //调用定义的getList()获取手机列表
+          getList();
+      })
+
+      //获取上一步传递过来的查询字符串的方法
+      function GetQueryString(name) {
+          var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+          var r = window.location.search.substr(1).match(reg);
+          if (r != null) return unescape(r[2]);
+          return null;
+      }
+
+    </script>
+  </body>
+  <style>
+      /* body{background-color: #dbf7e8;}
+      .page{position: relative;overflow:hidden;padding:0 0 40px 0;}
+      .topImg{display:block; width:738px;height:276px; margin: 0 auto;}
+      .title{width: 100%;text-align: center;margin:0; position: absolute;top:58px;left: 0;overflow: hidden}
+      .title text{font-size: 66px;color:#2a8e45;text-align: center;}
+      .bg{width: 700px;background-color: #fff;font-size: 32px;margin: -1px auto 0;text-align: justify;border-radius: 10px;padding: 50px 32px;box-sizing: border-box;}
+      .lh{line-height: 2;}
+      .bg div{background: #dcf6e7; color: #333; font-size: 34px;height: 78px; margin:60px 0 0; text-align:center;  padding: 0; line-height: 78px;white-space:nowrap;word-break:keep-all;overflow:hidden;text-overflow:ellipsis;}
+      .bg div span{vertical-align: middle;line-height: 78px;}
+      .bg div image{vertical-align: middle;width: 52px;height: 38px;margin-left: 20px;}
+      .bg .select{background:#32b16c; }
+      .bg progress{margin-top: 100px; width:530px;display: inline-block;margin-right:12px;} */
+  </style>
+
+</html>
